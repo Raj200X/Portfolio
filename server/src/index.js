@@ -4,31 +4,28 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import { connectDb } from "./config/db.js";
-import passport from "./config/passport.js";
-import authRoutes from "./routes/auth.js";
-import questionRoutes from "./routes/questions.js";
-import solveRoutes from "./routes/solve.js";
-import userRoutes from "./routes/users.js";
+import portfolioRoutes from "./routes/portfolio.js";
+import contactRoutes from "./routes/contact.js";
 import { useMockStore } from "./utils/mockStore.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(passport.initialize());
 app.use(cors({ origin: process.env.CLIENT_ORIGIN || "http://localhost:5173", credentials: true }));
 app.use(express.json({ limit: "1mb" }));
 app.use(morgan("dev"));
 
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok" });
+app.get("/api/health", (_req, res) => {
+  res.json({
+    status: "ok",
+    mode: useMockStore() ? "memory" : "database"
+  });
 });
 
-app.use("/api/auth", authRoutes);
-app.use("/api/questions", questionRoutes);
-app.use("/api/solve", solveRoutes);
-app.use("/api/users", userRoutes);
+app.use("/api/portfolio", portfolioRoutes);
+app.use("/api/contact", contactRoutes);
 
-app.use((err, req, res, next) => {
+app.use((err, _req, res, _next) => {
   console.error("Global Error Handler:", err);
   res.status(500).json({ message: "Internal Server Error" });
 });
@@ -38,10 +35,11 @@ const start = async () => {
     if (!useMockStore()) {
       await connectDb();
     } else {
-      console.log("Running with mock in-memory store (no MongoDB).");
+      console.log("Running portfolio API with in-memory fallback (no MongoDB configured).");
     }
+
     app.listen(PORT, () => {
-      console.log(`Server running on ${PORT}`);
+      console.log(`Portfolio server running on ${PORT}`);
     });
   } catch (error) {
     console.error("Failed to start server", error);
@@ -51,13 +49,12 @@ const start = async () => {
 
 start();
 
-// Global Error Handling
 process.on("uncaughtException", (err) => {
-  console.error("UNCAUGHT EXCEPTION! 💥 Shutting down...", err);
+  console.error("UNCAUGHT EXCEPTION! Shutting down...", err);
   process.exit(1);
 });
 
 process.on("unhandledRejection", (err) => {
-  console.error("UNHANDLED REJECTION! 💥 Shutting down...", err);
+  console.error("UNHANDLED REJECTION! Shutting down...", err);
   process.exit(1);
 });

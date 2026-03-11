@@ -1,123 +1,83 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
-import { Navbar } from "./components/Navbar";
-import { Footer } from "./components/Footer";
-import { Background } from "./components/Background";
-import { PageTransition } from "./components/PageTransition";
-import { ProtectedRoute } from "./components/ProtectedRoute";
-import { Landing } from "./pages/Landing";
-import { Signup } from "./pages/Signup";
-import { Login } from "./pages/Login";
-import { Dashboard } from "./pages/Dashboard";
-import { PublicProfile } from "./pages/PublicProfile";
-import AuthCallback from "./pages/AuthCallback";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChapterRail } from "./components/portfolio/ChapterRail";
+import { AmbientBackdrop } from "./components/portfolio/AmbientBackdrop";
+import { CustomCursor } from "./components/portfolio/CustomCursor";
+import { LandingSection } from "./components/portfolio/LandingSection";
+import { SkillsGalaxy } from "./components/portfolio/SkillsGalaxy";
+import { ProjectUniverse } from "./components/portfolio/ProjectUniverse";
+import { DeveloperMind } from "./components/portfolio/DeveloperMind";
+import { ContactTerminal } from "./components/portfolio/ContactTerminal";
+import { LoadingScreen } from "./components/portfolio/LoadingScreen";
+import { usePortfolioData } from "./hooks/usePortfolioData";
 
-const AnimatedRoutes = ({ onAuth }) => {
-  const location = useLocation();
-  return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route
-          path="/"
-          element={
-            <PageTransition>
-              <Landing />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <PageTransition>
-              <Signup onAuth={onAuth} />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <PageTransition>
-              <Login onAuth={onAuth} />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/auth-callback"
-          element={
-            <AuthCallback />
-          }
-        />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <PageTransition>
-                <Dashboard />
-              </PageTransition>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/u/:username"
-          element={
-            <PageTransition>
-              <PublicProfile />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/demo"
-          element={
-            <PageTransition>
-              <Dashboard isDemo={true} />
-            </PageTransition>
-          }
-        />
-      </Routes>
-    </AnimatePresence>
-  );
-};
+const sections = [
+  { id: "landing", label: "Arrival", index: "00" },
+  { id: "skills", label: "Galaxy", index: "01" },
+  { id: "projects", label: "Universe", index: "02" },
+  { id: "mind", label: "Mind", index: "03" },
+  { id: "contact", label: "Terminal", index: "04" }
+];
 
 const App = () => {
-  const [user, setUser] = useState(null);
+  const { portfolio, loading, source } = usePortfolioData();
+  const [activeSection, setActiveSection] = useState("landing");
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
-    const loadUser = async () => {
-      const token = localStorage.getItem("cc_token");
-      if (!token) {
-        setUser(null);
-        return;
-      }
-      try {
-        // We need to import api here, but we can't easily validly import it inside useEffect
-        // So we'll assume api is available or imported.
-        // Actually, let's just dynamic import or expect it to work if we import it at top.
-        // Better: Import api at the top.
-        const { data } = await import("./lib/api").then(m => m.default.get("/users/me"));
-        setUser(data.user);
-      } catch (err) {
-        console.error("Failed to restore session", err);
-        localStorage.removeItem("cc_token");
-        setUser(null);
-      }
+    const handleMouseMove = (event) => {
+      const x = event.clientX / window.innerWidth;
+      const y = event.clientY / window.innerHeight;
+      setMousePosition({ x, y });
     };
-    loadUser();
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("cc_token");
-    setUser(null);
-  };
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visible[0]) {
+          setActiveSection(visible[0].target.id);
+        }
+      },
+      {
+        rootMargin: "-30% 0px -30% 0px",
+        threshold: [0.2, 0.35, 0.5, 0.75]
+      }
+    );
+
+    sections.forEach(({ id }) => {
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, [loading]);
+
+  if (loading || !portfolio) {
+    return <LoadingScreen />;
+  }
 
   return (
-    <BrowserRouter>
-      <Background>
-        <Navbar isAuthed={!!user || !!localStorage.getItem("cc_token")} onLogout={handleLogout} />
-        <AnimatedRoutes onAuth={setUser} />
-        <Footer />
-      </Background>
-    </BrowserRouter>
+    <div className="relative min-h-screen overflow-x-clip bg-void text-white">
+      <CustomCursor />
+      <AmbientBackdrop mousePosition={mousePosition} />
+      <ChapterRail sections={sections} activeSection={activeSection} profile={portfolio.profile} />
+
+      <main className="relative z-10">
+        <LandingSection id="landing" profile={portfolio.profile} stats={portfolio.quickStats} />
+        <SkillsGalaxy id="skills" skillGroups={portfolio.skills} />
+        <ProjectUniverse id="projects" projects={portfolio.projects} />
+        <DeveloperMind id="mind" mindset={portfolio.mindset} />
+        <ContactTerminal id="contact" contact={portfolio.contact} />
+      </main>
+    </div>
   );
 };
 
