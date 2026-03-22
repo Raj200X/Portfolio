@@ -1,207 +1,215 @@
-import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
-import api from "../../lib/api";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-const initialHistory = [
-  { type: "system", value: "Terminal online. Type `help` to view commands." }
-];
+function normalizeCommand(input) {
+  return input.trim().toLowerCase();
+}
 
 export const ContactTerminal = ({ id, contact }) => {
-  const [history, setHistory] = useState(initialHistory);
-  const [command, setCommand] = useState("");
-  const [showForm, setShowForm] = useState(false);
-  const [formState, setFormState] = useState({ name: "", email: "", message: "" });
-  const [submitState, setSubmitState] = useState({ status: "idle", message: "" });
-
-  const links = useMemo(
+  const commands = useMemo(
     () => ({
-      email: `mailto:${contact.email}`,
-      github: contact.github,
-      linkedin: contact.linkedin,
-      resume: contact.resume
+      help: {
+        lines: ["Available commands:"],
+        commandList: [
+          "help",
+          "contact",
+          "resume",
+          "coding profiles",
+          "github",
+          "linkedin",
+          "leetcode",
+          "gfg",
+          "email",
+          "clear"
+        ]
+      },
+      contact: {
+        entries: [
+          { label: "Email", value: contact.email, href: `mailto:${contact.email}` },
+          { label: "LinkedIn", value: contact.linkedin, href: contact.linkedin },
+          { label: "GitHub", value: contact.github, href: contact.github }
+        ].filter((item) => item.value)
+      },
+      email: {
+        entries: [{ label: "Email", value: contact.email, href: `mailto:${contact.email}` }].filter((item) => item.value)
+      },
+      resume: {
+        link: contact.resume ? { label: "Open Resume", href: contact.resume } : null
+      },
+      github: {
+        entries: [{ label: "GitHub", value: contact.github, href: contact.github }].filter((item) => item.value),
+        link: contact.github ? { label: "Open GitHub", href: contact.github } : null
+      },
+      linkedin: {
+        entries: [{ label: "LinkedIn", value: contact.linkedin, href: contact.linkedin }].filter((item) => item.value),
+        link: contact.linkedin ? { label: "Open LinkedIn", href: contact.linkedin } : null
+      },
+      leetcode: {
+        entries: [{ label: "LeetCode", value: contact.leetcode, href: contact.leetcode }].filter((item) => item.value),
+        link: contact.leetcode ? { label: "Open LeetCode", href: contact.leetcode } : null
+      },
+      gfg: {
+        entries: [{ label: "GeeksforGeeks", value: contact.gfg, href: contact.gfg }].filter((item) => item.value),
+        link: contact.gfg ? { label: "Open GeeksforGeeks", href: contact.gfg } : null
+      },
+      "coding profiles": {
+        entries: [
+          { label: "GitHub", value: contact.github, href: contact.github },
+          { label: "LeetCode", value: contact.leetcode, href: contact.leetcode },
+          { label: "GeeksforGeeks", value: contact.gfg, href: contact.gfg },
+          { label: "Code360", value: contact.code360, href: contact.code360 },
+          { label: "Codolio", value: contact.codolio, href: contact.codolio },
+          { label: "HackerRank", value: contact.hackerrank, href: contact.hackerrank },
+          { label: "CodeChef", value: contact.codechef, href: contact.codechef }
+        ].filter((item) => item.value)
+      }
     }),
     [contact]
   );
 
-  const appendHistory = (line) => setHistory((current) => [...current, line]);
-
-  const handleCommand = (rawValue) => {
-    const normalized = rawValue.trim().toLowerCase();
-    appendHistory({ type: "command", value: `> ${rawValue}` });
-
-    if (!normalized) {
-      appendHistory({ type: "system", value: "Empty command. Type `help` to continue." });
-      return;
+  const [history, setHistory] = useState([
+    {
+      command: "contact",
+      output: commands.contact
     }
+  ]);
+  const [input, setInput] = useState("");
+  const outputRef = useRef(null);
+  const inputRef = useRef(null);
 
-    if (normalized === "clear") {
-      setHistory(initialHistory);
-      return;
+  useEffect(() => {
+    const container = outputRef.current;
+    if (container) {
+      container.scrollTop = container.scrollHeight;
     }
+  }, [history]);
 
-    if (normalized === "message") {
-      appendHistory({ type: "system", value: contact.commands.message });
-      setShowForm(true);
-      return;
-    }
-
-    const response = contact.commands[normalized];
-    if (response) {
-      appendHistory({ type: "system", value: response });
-      setShowForm(false);
-      return;
-    }
-
-    appendHistory({ type: "system", value: `Unknown command: ${normalized}` });
+  const handleWheel = (event) => {
+    const container = outputRef.current;
+    if (!container) return;
+    event.preventDefault();
+    container.scrollTop += event.deltaY;
   };
 
-  const onSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    setSubmitState({ status: "loading", message: "Sending message..." });
+    const command = normalizeCommand(input);
 
-    try {
-      const payload = {
-        ...formState,
-        source: "portfolio-terminal"
-      };
+    if (!command) return;
 
-      const { data } = await api.post("/contact", payload);
-      setSubmitState({ status: "success", message: data.message });
-      setFormState({ name: "", email: "", message: "" });
-      appendHistory({ type: "system", value: "Message delivered to backend storage." });
-    } catch (error) {
-      const message = error.response?.data?.message || "Unable to send message right now.";
-      setSubmitState({ status: "error", message });
+    if (command === "clear") {
+      setHistory([]);
+      setInput("");
+      return;
     }
+
+    const output = commands[command] ?? {
+      lines: [`Command not found: ${command}`, "Try: help"]
+    };
+
+    setHistory((current) => [...current, { command, output }]);
+    setInput("");
+  };
+
+  const handleChipClick = (command) => {
+    setInput(command);
+    inputRef.current?.focus();
   };
 
   return (
-    <section id={id} className="relative px-6 py-24 sm:px-10 lg:px-20 xl:px-32">
-      <div className="mx-auto max-w-7xl">
-        <div className="overflow-hidden rounded-[2.5rem] border border-white/10 bg-[#05070D]/85 shadow-[0_24px_120px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
-          <div className="flex items-center gap-3 border-b border-white/10 px-6 py-4">
-            <span className="h-3 w-3 rounded-full bg-[#FF6057]" />
-            <span className="h-3 w-3 rounded-full bg-[#FFBD2E]" />
-            <span className="h-3 w-3 rounded-full bg-[#28C840]" />
-            <p className="ml-4 font-sans text-[10px] uppercase tracking-[0.45em] text-white/42">Contact Terminal</p>
+    <section id={id} className="relative px-6 py-20 sm:px-10 lg:px-20 xl:px-32">
+      <div className="mx-auto max-w-5xl">
+        <div className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#141414] shadow-[0_20px_80px_rgba(0,0,0,0.45)]">
+          <div className="flex items-center gap-3 border-b border-white/10 px-5 py-4">
+            <span className="h-3 w-3 rounded-full bg-[#6d0f0f]" />
+            <span className="h-3 w-3 rounded-full bg-[#8b5b17]" />
+            <span className="h-3 w-3 rounded-full bg-[#205f36]" />
+            <p className="ml-3 text-[10px] uppercase tracking-[0.35em] text-white/38">
+              raj@portfolio:~ contact-terminal
+            </p>
           </div>
 
-          <div className="grid gap-8 p-6 lg:grid-cols-[1.15fr_0.85fr] lg:p-8">
-            <div className="rounded-[2rem] border border-white/8 bg-black/35 p-5">
-              <div className="space-y-3 font-mono text-sm text-[#B6FFEF]">
-                {history.map((line, index) => (
-                  <motion.p
-                    key={`${line.value}-${index}`}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={line.type === "command" ? "text-white" : "text-[#9DE7D8]"}
-                  >
-                    {line.value}
-                  </motion.p>
+          <div className="p-5 sm:p-6" onWheelCapture={handleWheel}>
+            <div
+              ref={outputRef}
+              onWheel={handleWheel}
+              className="max-h-[28rem] overflow-y-auto rounded-[1.4rem] border border-white/10 bg-black/25 p-5 font-mono text-sm"
+            >
+              <div className="mb-6">
+                <p className="text-white">$ help</p>
+                {commands.help.lines.map((line) => (
+                  <p key={line} className="mt-2 text-white/65">
+                    {line}
+                  </p>
                 ))}
-              </div>
-
-              <form
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  handleCommand(command);
-                  setCommand("");
-                }}
-                className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5"
-              >
-                <span className="font-mono text-[#73F5D5]">&gt;</span>
-                <input
-                  value={command}
-                  onChange={(event) => setCommand(event.target.value)}
-                  placeholder={contact.terminalPrompt}
-                  className="w-full bg-transparent font-mono text-sm text-white outline-none placeholder:text-white/28"
-                />
-              </form>
-
-              <div className="mt-6 flex flex-wrap gap-2">
-                {["help", "contact", "github", "linkedin", "resume", "message"].map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() => handleCommand(item)}
-                    className="rounded-full border border-white/10 px-3 py-2 font-mono text-[11px] uppercase tracking-[0.24em] text-white/58 transition hover:border-white/25 hover:text-white"
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="space-y-5">
-              <div className="rounded-[2rem] border border-white/8 bg-white/[0.04] p-6">
-                <p className="font-sans text-[10px] uppercase tracking-[0.45em] text-white/40">Direct Channels</p>
-                <div className="mt-6 space-y-4 text-sm text-white/75">
-                  <a href={links.email} className="block transition hover:text-white">
-                    {contact.email}
-                  </a>
-                  <a href={links.github} target="_blank" rel="noreferrer" className="block transition hover:text-white">
-                    {contact.github}
-                  </a>
-                  <a href={links.linkedin} target="_blank" rel="noreferrer" className="block transition hover:text-white">
-                    {contact.linkedin}
-                  </a>
-                  <a href={links.resume} target="_blank" rel="noreferrer" className="block transition hover:text-white">
-                    Resume archive
-                  </a>
-                </div>
-              </div>
-
-              {showForm ? (
-                <form onSubmit={onSubmit} className="rounded-[2rem] border border-white/8 bg-black/30 p-6">
-                  <p className="font-sans text-[10px] uppercase tracking-[0.45em] text-white/40">Send Message</p>
-                  <div className="mt-5 space-y-4">
-                    <input
-                      required
-                      value={formState.name}
-                      onChange={(event) => setFormState((state) => ({ ...state, name: event.target.value }))}
-                      placeholder="Name"
-                      className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/28"
-                    />
-                    <input
-                      required
-                      type="email"
-                      value={formState.email}
-                      onChange={(event) => setFormState((state) => ({ ...state, email: event.target.value }))}
-                      placeholder="Email"
-                      className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/28"
-                    />
-                    <textarea
-                      required
-                      rows={5}
-                      value={formState.message}
-                      onChange={(event) => setFormState((state) => ({ ...state, message: event.target.value }))}
-                      placeholder="Tell me about the project, internship, or collaboration."
-                      className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/28"
-                    />
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {commands.help.commandList.map((command) => (
                     <button
-                      type="submit"
-                      disabled={submitState.status === "loading"}
-                      className="rounded-full bg-white px-5 py-3 text-xs uppercase tracking-[0.3em] text-black transition hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
+                      key={command}
+                      type="button"
+                      onClick={() => handleChipClick(command)}
+                      className="rounded-full border border-white/10 px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] text-white/60 transition hover:border-white/25 hover:text-white"
                     >
-                      {submitState.status === "loading" ? "Sending" : "Transmit"}
+                      {command}
                     </button>
-                  </div>
-                  {submitState.message ? (
-                    <p
-                      className={`mt-4 text-sm ${
-                        submitState.status === "error" ? "text-[#FF9C93]" : "text-[#9DE7D8]"
-                      }`}
-                    >
-                      {submitState.message}
-                    </p>
-                  ) : null}
-                </form>
-              ) : (
-                <div className="rounded-[2rem] border border-dashed border-white/10 bg-white/[0.03] p-6 text-sm leading-7 text-white/52">
-                  Type <span className="font-mono text-white">message</span> in the terminal to unlock the backend-connected form.
+                  ))}
                 </div>
-              )}
+              </div>
+
+              {history.map((entry, index) => (
+                <div key={`${entry.command}-${index}`} className="mb-6 last:mb-0">
+                  <p className="text-white">$ {entry.command}</p>
+                  {(entry.output.lines ?? []).map((line) => (
+                    <p key={line} className="mt-2 text-white/65">
+                      {line}
+                    </p>
+                  ))}
+                  {entry.output.entries?.map((entryItem) => (
+                    <p key={`${entryItem.label}-${entryItem.value}`} className="mt-2 text-white/68">
+                      {entryItem.label}:{" "}
+                      <a href={entryItem.href} target="_blank" rel="noreferrer" className="text-white underline-offset-4 hover:underline">
+                        {entryItem.value}
+                      </a>
+                    </p>
+                  ))}
+                  {entry.output.commandList ? (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {entry.output.commandList.map((command) => (
+                        <button
+                          key={command}
+                          type="button"
+                          onClick={() => handleChipClick(command)}
+                          className="rounded-full border border-white/10 px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] text-white/60 transition hover:border-white/25 hover:text-white"
+                        >
+                          {command}
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
+                  {entry.output.link ? (
+                    <a
+                      href={entry.output.link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-4 inline-block rounded-full bg-white px-4 py-2 text-[11px] uppercase tracking-[0.2em] text-black"
+                    >
+                      {entry.output.link.label}
+                    </a>
+                  ) : null}
+                </div>
+              ))}
             </div>
+
+            <form onSubmit={handleSubmit} className="mt-5 flex items-center gap-3 rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4 font-mono">
+              <span className="shrink-0 text-white/75">raj@portfolio:~$</span>
+              <input
+                ref={inputRef}
+                value={input}
+                onChange={(event) => setInput(event.target.value)}
+                className="w-full bg-transparent text-sm text-white outline-none placeholder:text-white/25"
+                placeholder="Type help"
+                aria-label="Terminal command input"
+              />
+            </form>
           </div>
         </div>
       </div>

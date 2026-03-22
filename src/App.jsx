@@ -4,23 +4,25 @@ import { ChapterRail } from "./components/portfolio/ChapterRail";
 import { AmbientBackdrop } from "./components/portfolio/AmbientBackdrop";
 import { CustomCursor } from "./components/portfolio/CustomCursor";
 import { LandingSection } from "./components/portfolio/LandingSection";
+import { AboutSection } from "./components/portfolio/AboutSection";
 import { SkillsGalaxy } from "./components/portfolio/SkillsGalaxy";
 import { ProjectUniverse } from "./components/portfolio/ProjectUniverse";
-import { DeveloperMind } from "./components/portfolio/DeveloperMind";
+import { CredentialsSection } from "./components/portfolio/CredentialsSection";
 import { ContactTerminal } from "./components/portfolio/ContactTerminal";
 import { LoadingScreen } from "./components/portfolio/LoadingScreen";
 import { usePortfolioData } from "./hooks/usePortfolioData";
 
 const sections = [
-  { id: "landing", label: "Arrival", index: "00" },
-  { id: "skills", label: "Galaxy", index: "01" },
-  { id: "projects", label: "Universe", index: "02" },
-  { id: "mind", label: "Mind", index: "03" },
-  { id: "contact", label: "Terminal", index: "04" }
+  { id: "landing", label: "Home", index: "00" },
+  { id: "about", label: "About", index: "01" },
+  { id: "skills", label: "Skills", index: "02" },
+  { id: "projects", label: "Projects", index: "03" },
+  { id: "credentials", label: "Education", index: "04" },
+  { id: "contact", label: "Contact", index: "05" }
 ];
 
 const App = () => {
-  const { portfolio, loading, source } = usePortfolioData();
+  const { portfolio, loading } = usePortfolioData();
   const [activeSection, setActiveSection] = useState("landing");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -71,10 +73,11 @@ const App = () => {
       <ChapterRail sections={sections} activeSection={activeSection} profile={portfolio.profile} />
 
       <main className="relative z-10">
-        <LandingSection id="landing" profile={portfolio.profile} stats={portfolio.quickStats} />
+        <LandingSection id="landing" profile={portfolio.profile} />
+        <AboutSection id="about" profile={portfolio.profile} />
         <SkillsGalaxy id="skills" skillGroups={portfolio.skills} />
         <ProjectUniverse id="projects" projects={portfolio.projects} />
-        <DeveloperMind id="mind" mindset={portfolio.mindset} />
+        <CredentialsSection id="credentials" credentials={portfolio.credentials} />
         <ContactTerminal id="contact" contact={portfolio.contact} />
       </main>
     </div>

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export const LoadingScreen = () => (
   <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-void">
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(115,245,213,0.16),_transparent_35%),radial-gradient(circle_at_bottom,_rgba(122,162,255,0.18),_transparent_42%)]" />
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.12),_transparent_35%),radial-gradient(circle_at_bottom,_rgba(255,255,255,0.08),_transparent_42%)]" />
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}

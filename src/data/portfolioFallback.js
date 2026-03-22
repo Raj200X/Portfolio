@@ -28,7 +28,7 @@ export const portfolioFallback = {
       title: "Curiosity became a system",
       description:
         "What started as fascination with how digital products behave turned into a habit of reverse-engineering interfaces, layouts, and interactions.",
-      accent: "from-[#73F5D5] to-[#2B9B8C]"
+      accent: "from-white/70 to-white/10"
     },
     {
       year: "Chapter 02",
@@ -56,7 +56,7 @@ export const portfolioFallback = {
     {
       category: "Frontend",
       summary: "Interfaces with narrative flow, responsiveness, and motion that supports the content.",
-      orbitColor: "#73F5D5",
+      orbitColor: "#FFFFFF",
       skills: [
         { name: "React", level: "Advanced", description: "Component architecture, state-driven UI, reusable systems.", x: "52%", y: "18%" },
         { name: "TailwindCSS", level: "Advanced", description: "Fast iteration with intentional spacing, typography, and theming.", x: "75%", y: "35%" },
@@ -102,9 +102,9 @@ export const portfolioFallback = {
         "A communication-focused web experience built to make conversation flow feel natural and immediate, with an emphasis on interface clarity and responsive interactions.",
       stack: ["React", "Node.js", "Express", "MongoDB"],
       githubUrl: "https://github.com/Raj200X/Convo",
-      liveUrl: "https://github.com/Raj200X/Convo",
+      liveUrl: "https://convo-raj-sri.vercel.app",
       status: "Interactive product build",
-      accent: "from-[#7AF0D2]/25 via-transparent to-[#7AA2FF]/25"
+      accent: "linear-gradient(135deg, rgba(255,255,255,0.18), transparent 48%, rgba(255,255,255,0.06))"
     },
     {
       title: "Cohort",
@@ -113,9 +113,20 @@ export const portfolioFallback = {
         "A structured learning/community concept where the product thinking centered on organization, progress visibility, and smooth user flow across views.",
       stack: ["React", "TailwindCSS", "Express", "MongoDB"],
       githubUrl: "https://github.com/Raj200X/Cohort",
-      liveUrl: "https://github.com/Raj200X/Cohort",
+      liveUrl: "https://cohort-zeta.vercel.app",
       status: "Community platform concept",
-      accent: "from-[#F7B267]/25 via-transparent to-[#E48BFF]/25"
+      accent: "linear-gradient(135deg, rgba(255,255,255,0.16), transparent 45%, rgba(255,255,255,0.08))"
+    },
+    {
+      title: "Plagiarism Detection System",
+      eyebrow: "Project Orbit 03",
+      summary:
+        "A plagiarism detection system built using rolling hash and the KMP algorithm to compare content efficiently and identify similarity with an algorithm-first approach.",
+      stack: ["JavaScript", "Rolling Hash", "KMP", "Algorithms"],
+      githubUrl: "https://github.com/Raj200X/PLAGIARISM-DETECTION-SYSTEM-USING-ROLLING-HASH-AND-KMP-ALGORITHM",
+      liveUrl: "https://github.com/Raj200X/PLAGIARISM-DETECTION-SYSTEM-USING-ROLLING-HASH-AND-KMP-ALGORITHM",
+      status: "Algorithm-focused system build",
+      accent: "linear-gradient(135deg, rgba(255,255,255,0.15), transparent 50%, rgba(255,255,255,0.05))"
     }
   ],
   mindset: {
@@ -144,22 +155,63 @@ export const portfolioFallback = {
       "Create interfaces that feel premium without becoming heavy."
     ]
   },
+  credentials: {
+    education: [
+      {
+        degree: "Bachelor of Technology – Information Technology",
+        institution: "Lovely Professional University, Punjab, India",
+        period: "Aug 2023 – Present",
+        result: "CGPA: 8.04",
+        description: ""
+      },
+      {
+        degree: "Intermediate (PCM)",
+        institution: "Gorakhpur Public School, Gorakhpur, U.P.",
+        period: "Apr 2021 – Mar 2022",
+        result: "Percentage: 67.2%",
+        description: ""
+      },
+      {
+        degree: "Matriculation",
+        institution: "Gorakhpur Public School, Gorakhpur, U.P.",
+        period: "Apr 2019 – Mar 2020",
+        result: "Percentage: 86%",
+        description: ""
+      }
+    ],
+    certifications: [
+      {
+        title: "Developing Back-End Apps with Node.js and Express",
+        issuer: "Coursera",
+        credentialId: "YAXJ3IE0YEUR",
+        link: "http://coursera.org/verify/HW9VK7G2KPV6"
+      },
+      {
+        title: "Advanced React",
+        issuer: "Coursera",
+        credentialId: "HW9VK7G2KPV6",
+        link: "http://coursera.org/verify/YAXJ3IE0YEUR"
+      },
+      {
+        title: "Data Structures and Algorithms Using C++",
+        issuer: "CipherSchools",
+        credentialId: "AUG 2024",
+        link: "https://drive.google.com/file/d/13vXLmMLnZHXeheXCRErwyUWsy2V7tvcp/view"
+      }
+    ]
+  },
   contact: {
     terminalPrompt: "Type `help` to navigate the final chapter.",
     email: "ggrajsrivastav0@gmail.com",
     github: "https://github.com/RAJ200X",
     linkedin: "http://www.linkedin.com/in/rajsrivastava0",
-    resume:
-      "https://drive.google.com/file/d/13vXLmMLnZHXeheXCRErwyUWsy2V7tvcp/view?usp=drive_link",
-    commands: {
-      help: "Available commands: contact, email, github, linkedin, resume, dsa, clear, message",
-      contact: "Reach out for internships, collaborations, frontend builds, or MERN projects.",
-      email: "Opening secure channel: ggrajsrivastav0@gmail.com",
-      github: "GitHub beacon locked at github.com/RAJ200X",
-      linkedin: "LinkedIn profile available at linkedin.com/in/rajsrivastava0",
-      resume: "Resume archive connected. Open the link below to inspect the full profile.",
-      dsa: "Profiles detected: LeetCode, CodeChef, and GeeksforGeeks are active parts of the learning system.",
-      message: "Terminal form unlocked. Leave a message and it will be stored through the backend API."
-    }
+    leetcode: "https://leetcode.com/u/RAJ200X/",
+    gfg: "https://www.geeksforgeeks.org/profile/ggrajsri5l4l?tab=activity",
+    code360: "",
+    codolio: "",
+    hackerrank: "",
+    codechef: "https://www.codechef.com/users/raj200x",
+    resume: "https://rajsrivastava-resume.s3.ap-south-1.amazonaws.com/CV.pdf",
+    commands: {}
   }
 };

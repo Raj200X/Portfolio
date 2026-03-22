@@ -8,7 +8,7 @@ export const SectionHeading = ({ eyebrow, title, description, align = "left" }) 
     className={`max-w-2xl space-y-5 ${align === "center" ? "mx-auto text-center" : ""}`}
   >
     <p className="font-sans text-[10px] uppercase tracking-[0.55em] text-white/45">{eyebrow}</p>
-    <h2 className="font-display text-4xl leading-none text-white sm:text-5xl">{title}</h2>
+    <h2 className="section-title text-3xl leading-none text-white sm:text-4xl">{title}</h2>
     <p className="text-sm leading-7 text-white/58 sm:text-base">{description}</p>
   </motion.div>
 );

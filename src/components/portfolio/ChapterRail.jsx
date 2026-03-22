@@ -1,5 +1,3 @@
-import { motion } from "framer-motion";
-
 export const ChapterRail = ({ sections, activeSection, profile }) => (
   <div className="pointer-events-none fixed inset-y-0 z-30 hidden xl:flex">
     <div className="pointer-events-auto ml-8 flex w-24 flex-col justify-between py-10">
@@ -21,14 +19,7 @@ export const ChapterRail = ({ sections, activeSection, profile }) => (
               className="group flex items-center gap-3 text-white/45 transition hover:text-white"
             >
               <span className="font-sans text-[10px] uppercase tracking-[0.4em]">{section.index}</span>
-              <div className="relative h-px w-8 bg-white/10">
-                {isActive ? (
-                  <motion.span
-                    layoutId="chapter-rail"
-                    className="absolute inset-y-0 left-0 w-full bg-white"
-                  />
-                ) : null}
-              </div>
+              <span className={`${isActive ? "text-white" : "text-white/35"} text-xs`}>-</span>
               <span className="text-xs uppercase tracking-[0.3em]">{section.label}</span>
             </a>
           );

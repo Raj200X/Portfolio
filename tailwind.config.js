@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        void: "#03060F"
+        void: "#010101"
       },
       fontFamily: {
         display: ["Syne", "ui-sans-serif", "system-ui"],

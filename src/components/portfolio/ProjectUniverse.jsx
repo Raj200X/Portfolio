@@ -6,9 +6,10 @@ export const ProjectUniverse = ({ id, projects }) => (
   <section id={id} className="relative px-6 py-24 sm:px-10 lg:px-20 xl:px-32">
     <div className="mx-auto max-w-7xl space-y-14">
       <SectionHeading
-        eyebrow="Chapter Two"
-        title="Projects live in their own orbit, each one testing a different part of the stack."
-        description="Browse through systems, inspect the stack, and jump into code or demos."
+        eyebrow=""
+        title="Projects"
+        description=""
+        align="center"
       />
 
       <div className="relative -mx-6 overflow-x-auto px-6 pb-6 [scrollbar-width:none] sm:-mx-10 sm:px-10 lg:-mx-20 lg:px-20 xl:-mx-32 xl:px-32">
@@ -23,11 +24,13 @@ export const ProjectUniverse = ({ id, projects }) => (
               whileHover={{ y: -10 }}
               className="group relative flex w-[19rem] shrink-0 snap-start flex-col overflow-hidden rounded-[2.25rem] border border-white/10 bg-white/[0.04] p-6 backdrop-blur-2xl sm:w-[24rem] lg:w-[28rem]"
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${project.accent} opacity-0 transition duration-500 group-hover:opacity-100`} />
+              <div
+                className="absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100"
+                style={{ backgroundImage: project.accent }}
+              />
               <div className="relative flex h-full flex-col">
                 <div className="rounded-[1.75rem] border border-white/10 bg-black/30 p-5">
-                  <p className="font-sans text-[10px] uppercase tracking-[0.45em] text-white/45">{project.eyebrow}</p>
-                  <div className="mt-6 space-y-4">
+                  <div className="space-y-4">
                     <h3 className="font-display text-4xl text-white">{project.title}</h3>
                     <p className="text-sm leading-7 text-white/62">{project.summary}</p>
                   </div>
