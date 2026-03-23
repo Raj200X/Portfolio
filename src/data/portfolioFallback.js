@@ -60,7 +60,7 @@ export const portfolioFallback = {
       skills: [
         { name: "React", level: "Advanced", description: "Component architecture, state-driven UI, reusable systems.", x: "52%", y: "18%" },
         { name: "TailwindCSS", level: "Advanced", description: "Fast iteration with intentional spacing, typography, and theming.", x: "75%", y: "35%" },
-        { name: "Framer Motion", level: "Advanced", description: "Scroll choreography, reveals, and premium micro-interactions.", x: "70%", y: "68%" },
+        // { name: "Framer Motion", level: "Advanced", description: "Scroll choreography, reveals, and premium micro-interactions.", x: "70%", y: "68%" },
         { name: "JavaScript", level: "Advanced", description: "Strong foundation in interactive browser logic and SPA behavior.", x: "32%", y: "72%" }
       ]
     },
