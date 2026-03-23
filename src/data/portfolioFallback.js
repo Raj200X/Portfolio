@@ -207,9 +207,9 @@ export const portfolioFallback = {
     linkedin: "http://www.linkedin.com/in/rajsrivastava0",
     leetcode: "https://leetcode.com/u/RAJ200X/",
     gfg: "https://www.geeksforgeeks.org/profile/ggrajsri5l4l?tab=activity",
-    code360: "",
-    codolio: "",
-    hackerrank: "",
+    code360: "https://www.naukri.com/code360/profile/RAJSRIVASTAVA",
+    codolio: "https://codolio.com/profile/Raj200x",
+    hackerrank: "https://www.hackerrank.com/profile/RAJ200X",
     codechef: "https://www.codechef.com/users/raj200x",
     resume: "https://rajsrivastava-resume.s3.ap-south-1.amazonaws.com/CV.pdf",
     commands: {}
