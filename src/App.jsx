@@ -575,14 +575,6 @@ const Navigation = () => {
 
 const Hero = ({ ready }) => {
   const sectionRef = useRef(null);
-  const canvasRef = useRef(null);
-  const snakeRef = useRef({
-    segments: Array.from({ length: 24 }, () => ({ x: 0, y: 0 })),
-    mouse: { x: 0, y: 0 },
-    target: { x: 0, y: 0 },
-    active: false,
-    opacity: 0,
-  });
 
   useEffect(() => {
     if (!ready) return undefined;
@@ -595,146 +587,21 @@ const Hero = ({ ready }) => {
         duration: 0.85,
         ease: 'power3.out',
       });
+      gsap.from('.hero-media', {
+        x: 48,
+        opacity: 0,
+        delay: 0.6,
+        duration: 1.1,
+        ease: 'power3.out',
+      });
     }, sectionRef);
 
     return () => ctxGSAP.revert();
   }, [ready]);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return undefined;
-
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-
-    const handleResize = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      canvas.width = rect.width;
-      canvas.height = rect.height;
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    const handleMouseMove = (e) => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      snakeRef.current.target.x = x;
-      snakeRef.current.target.y = y;
-      
-      if (!snakeRef.current.active) {
-        snakeRef.current.active = true;
-        snakeRef.current.mouse.x = x;
-        snakeRef.current.mouse.y = y;
-        snakeRef.current.segments.forEach((seg) => {
-          seg.x = x;
-          seg.y = y;
-        });
-      }
-    };
-
-    const handleMouseEnter = () => {
-      snakeRef.current.active = true;
-    };
-
-    const handleMouseLeave = () => {
-      snakeRef.current.active = false;
-    };
-
-    const heroSection = sectionRef.current;
-    if (heroSection) {
-      heroSection.addEventListener('mousemove', handleMouseMove);
-      heroSection.addEventListener('mouseenter', handleMouseEnter);
-      heroSection.addEventListener('mouseleave', handleMouseLeave);
-    }
-
-    const render = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const snake = snakeRef.current;
-      
-      if (snake.active) {
-        snake.opacity += (1 - snake.opacity) * 0.08;
-      } else {
-        snake.opacity += (0 - snake.opacity) * 0.08;
-      }
-
-      if (snake.opacity > 0.01) {
-        // Butter-smooth mouse lead
-        snake.mouse.x += (snake.target.x - snake.mouse.x) * 0.22;
-        snake.mouse.y += (snake.target.y - snake.mouse.y) * 0.22;
-
-        snake.segments[0].x = snake.mouse.x;
-        snake.segments[0].y = snake.mouse.y;
-
-        // Wave physics propagation
-        for (let i = 1; i < snake.segments.length; i++) {
-          const prev = snake.segments[i - 1];
-          const curr = snake.segments[i];
-          curr.x += (prev.x - curr.x) * 0.32;
-          curr.y += (prev.y - curr.y) * 0.32;
-        }
-
-        // Draw outer translucent ribbon trace
-        ctx.beginPath();
-        ctx.moveTo(snake.segments[0].x, snake.segments[0].y);
-        for (let i = 1; i < snake.segments.length - 1; i++) {
-          const xc = (snake.segments[i].x + snake.segments[i + 1].x) / 2;
-          const yc = (snake.segments[i].y + snake.segments[i + 1].y) / 2;
-          ctx.quadraticCurveTo(snake.segments[i].x, snake.segments[i].y, xc, yc);
-        }
-        ctx.strokeStyle = `rgba(255, 237, 41, ${0.12 * snake.opacity})`;
-        ctx.lineWidth = 14;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.stroke();
-
-        // Draw inner high-contrast glow path
-        ctx.strokeStyle = `rgba(255, 237, 41, ${0.35 * snake.opacity})`;
-        ctx.lineWidth = 4;
-        ctx.stroke();
-
-        // Draw scale segments
-        for (let i = snake.segments.length - 1; i >= 0; i--) {
-          const seg = snake.segments[i];
-          const t = i / (snake.segments.length - 1);
-          const size = (1 - t) * 8 + 1.5;
-          
-          ctx.beginPath();
-          ctx.arc(seg.x, seg.y, size, 0, Math.PI * 2);
-          
-          ctx.fillStyle = `rgba(255, 237, 41, ${(1 - t) * snake.opacity})`;
-          ctx.shadowBlur = (1 - t) * 12;
-          ctx.shadowColor = `rgba(255, 237, 41, ${snake.opacity})`;
-          ctx.fill();
-        }
-        ctx.shadowBlur = 0;
-      }
-
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      if (heroSection) {
-        heroSection.removeEventListener('mousemove', handleMouseMove);
-        heroSection.removeEventListener('mouseenter', handleMouseEnter);
-        heroSection.removeEventListener('mouseleave', handleMouseLeave);
-      }
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, [ready]);
-
   return (
     <>
       <section id="home" ref={sectionRef} className="hero-section">
-        <canvas ref={canvasRef} className="hero-snake-canvas" />
         <div className="hero-outline-mark" aria-hidden="true">RS</div>
 
         <div className="hero-content">
@@ -769,6 +636,7 @@ const Hero = ({ ready }) => {
           </div>
         </div>
 
+
         {/* Scroll pill */}
         <button
           className="scroll-pill"
@@ -781,11 +649,13 @@ const Hero = ({ ready }) => {
           <span className="scroll-pill-label">SCROLL</span>
         </button>
 
+
       </section>
       <TickerBand />
     </>
   );
 };
+
 
 
 const TickerBand = () => (
@@ -806,8 +676,8 @@ const Manifesto = () => (
     <div className="manifesto-orb" aria-hidden="true" />
     <p className="manifesto-kicker" data-reveal>// raj.stack.executing</p>
     <h2 data-reveal>
-      Code is <span className="brush">craft.</span> APIs are architecture.
-      <span> Both have to earn their place in the stack.</span>
+      Code is <span className="brush">craft.</span> API's are architecture.
+      <span style={{ color: 'var(--accent)' }}> Both have to earn their place in the stack.</span>
     </h2>
     <p className="manifesto-copy" data-reveal>
       From first component to final endpoint, every decision gets made with intent —
@@ -1162,7 +1032,7 @@ const TerminalContact = () => {
           index="06"
           kicker="Contact"
           title="Let's actually talk."
-          body="If you have a project, an internship, or just want to see what I'm currently working on — drop a message or use the terminal."
+          body={<>If you have a project, an internship, or just want to see what I'm currently working on — drop a message, use the terminal, or reach me directly at <strong style={{ color: 'var(--accent)' }}>{portfolio.profile.displayEmail}</strong>.</>}
         />
 
         <div className="contact-layout">
@@ -1171,7 +1041,7 @@ const TerminalContact = () => {
               <span />
               <span />
               <span />
-              <strong>raj@portfolio</strong>
+              <strong>raj@rajsrivastava.in ~</strong>
             </div>
             <div className="terminal-output">
               {lines.map((line, index) => (
@@ -1251,7 +1121,7 @@ const TerminalContact = () => {
           </div>
         </div>
 
-        <div className="profile-strip" data-reveal>
+        <div className="profile-strip">
           {codingProfiles.map((profile) => (
             <a key={profile.label} href={profile.href} target="_blank" rel="noreferrer">
               <img
@@ -1272,7 +1142,9 @@ const Footer = () => (
   <footer className="site-footer">
     <div className="footer-wordmark">RAJ SRIVASTAVA</div>
     <div className="footer-bottom">
-
+      <div className="footer-domain" style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>
+        &copy; {new Date().getFullYear()} rajsrivastava.in
+      </div>
       <button
         className="footer-top-btn"
         onClick={() => gsapScrollTo('home')}

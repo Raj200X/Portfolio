@@ -10,6 +10,7 @@ export const portfolio = {
     location: 'India',
     availability: 'Open to internships and freelance builds',
     email: 'ggrajsrivastav0@gmail.com',
+    displayEmail: 'contact@rajsrivastava.in',
     resume:
       'https://rajsrivastava-resume.s3.ap-south-1.amazonaws.com/CV.pdf',
     social: {
