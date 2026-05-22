@@ -8,32 +8,190 @@
   font-display: swap;
 }
 
-:root {
-  /* ── Blacks ─────────────────────────── */
-  --ink:        #080808;
-  --ink-soft:   #0f0f0a;
-  --charcoal:   #181808;
-
-  /* ── Text (white for readability on black) ── */
-  --paper:      #ffffff;
-  --paper-soft: rgba(255, 255, 255, 0.70);
-  --muted:      rgba(255, 255, 255, 0.36);
-
-  /* ── Yellow #FFED29 — the ONLY accent ── */
+/* ─── THEME: Yellow (default) ─────────────────────── */
+:root,
+:root[data-theme="yellow"] {
+  --ink:          #080808;
+  --ink-soft:     #0f0f0a;
+  --charcoal:     #181808;
+  --paper:        #ffffff;
+  --paper-soft:   rgba(255, 255, 255, 0.70);
+  --muted:        rgba(255, 255, 255, 0.36);
   --accent:       #FFED29;
-  --accent-red:   #FFED29;   /* keep alias */
-  --accent-olive: #FFED29;   /* keep alias */
-  --accent-gold:  #FFED29;   /* keep alias */
-  --accent-steel: #FFED29;   /* keep alias */
   --accent-hover: #FFF176;
   --accent-dim:   rgba(255, 237, 41, 0.12);
   --accent-glow:  rgba(255, 237, 41, 0.32);
+  --accent-rgb:   255, 237, 41;
+  --line:         rgba(255, 237, 41, 0.12);
+  --line-strong:  rgba(255, 237, 41, 0.22);
+  --shadow:       rgba(0, 0, 0, 0.55);
+}
 
-  /* ── Lines (yellow-tinted, very subtle) ── */
-  --line:        rgba(255, 237, 41, 0.12);
-  --line-strong: rgba(255, 237, 41, 0.22);
+/* ─── THEME: Cyan ──────────────────────────────────── */
+:root[data-theme="cyan"] {
+  --ink:          #060810;
+  --ink-soft:     #0a0c14;
+  --charcoal:     #10131f;
+  --paper:        #ffffff;
+  --paper-soft:   rgba(255, 255, 255, 0.70);
+  --muted:        rgba(255, 255, 255, 0.36);
+  --accent:       #22D3EE;
+  --accent-hover: #67E8F9;
+  --accent-dim:   rgba(34, 211, 238, 0.12);
+  --accent-glow:  rgba(34, 211, 238, 0.32);
+  --accent-rgb:   34, 211, 238;
+  --line:         rgba(34, 211, 238, 0.12);
+  --line-strong:  rgba(34, 211, 238, 0.22);
+  --shadow:       rgba(0, 0, 0, 0.55);
+}
 
-  --shadow: rgba(0, 0, 0, 0.55);
+/* ─── THEME: Ice / White ───────────────────────────── */
+:root[data-theme="ice"] {
+  --ink:          #080808;
+  --ink-soft:     #0e0e0e;
+  --charcoal:     #161616;
+  --paper:        #ffffff;
+  --paper-soft:   rgba(255, 255, 255, 0.70);
+  --muted:        rgba(255, 255, 255, 0.36);
+  --accent:       #E2E8F0;
+  --accent-hover: #F8FAFC;
+  --accent-dim:   rgba(226, 232, 240, 0.10);
+  --accent-glow:  rgba(226, 232, 240, 0.25);
+  --accent-rgb:   226, 232, 240;
+  --line:         rgba(255, 255, 255, 0.10);
+  --line-strong:  rgba(255, 255, 255, 0.18);
+  --shadow:       rgba(0, 0, 0, 0.55);
+}
+
+/* ─── THEME: Emerald ───────────────────────────────── */
+:root[data-theme="emerald"] {
+  --ink:          #060c09;
+  --ink-soft:     #0a110c;
+  --charcoal:     #101a12;
+  --paper:        #ffffff;
+  --paper-soft:   rgba(255, 255, 255, 0.70);
+  --muted:        rgba(255, 255, 255, 0.36);
+  --accent:       #10B981;
+  --accent-hover: #34D399;
+  --accent-dim:   rgba(16, 185, 129, 0.12);
+  --accent-glow:  rgba(16, 185, 129, 0.32);
+  --accent-rgb:   16, 185, 129;
+  --line:         rgba(16, 185, 129, 0.12);
+  --line-strong:  rgba(16, 185, 129, 0.22);
+  --shadow:       rgba(0, 0, 0, 0.55);
+}
+
+/* ─── THEME: Orange ────────────────────────────────── */
+:root[data-theme="orange"] {
+  --ink:          #0d0804;
+  --ink-soft:     #130c06;
+  --charcoal:     #1a1108;
+  --paper:        #ffffff;
+  --paper-soft:   rgba(255, 255, 255, 0.70);
+  --muted:        rgba(255, 255, 255, 0.36);
+  --accent:       #F97316;
+  --accent-hover: #FB923C;
+  --accent-dim:   rgba(249, 115, 22, 0.12);
+  --accent-glow:  rgba(249, 115, 22, 0.32);
+  --accent-rgb:   249, 115, 22;
+  --line:         rgba(249, 115, 22, 0.12);
+  --line-strong:  rgba(249, 115, 22, 0.22);
+  --shadow:       rgba(0, 0, 0, 0.55);
+}
+
+/* ─── THEME: Brown (Copper) ───────────────────────── */
+:root[data-theme="brown"] {
+  --ink:          #0c0905;
+  --ink-soft:     #130e07;
+  --charcoal:     #1c140a;
+  --paper:        #ffffff;
+  --paper-soft:   rgba(255, 255, 255, 0.70);
+  --muted:        rgba(255, 255, 255, 0.36);
+  --accent:       #C07840;
+  --accent-hover: #D99057;
+  --accent-dim:   rgba(192, 120, 64, 0.14);
+  --accent-glow:  rgba(192, 120, 64, 0.35);
+  --accent-rgb:   192, 120, 64;
+  --line:         rgba(192, 120, 64, 0.13);
+  --line-strong:  rgba(192, 120, 64, 0.24);
+  --shadow:       rgba(0, 0, 0, 0.60);
+}
+
+/* ─── THEME: Purple (Violet) ──────────────────────── */
+:root[data-theme="purple"] {
+  --ink:          #08060f;
+  --ink-soft:     #0e0b18;
+  --charcoal:     #150f22;
+  --paper:        #ffffff;
+  --paper-soft:   rgba(255, 255, 255, 0.70);
+  --muted:        rgba(255, 255, 255, 0.36);
+  --accent:       #A855F7;
+  --accent-hover: #C084FC;
+  --accent-dim:   rgba(168, 85, 247, 0.14);
+  --accent-glow:  rgba(168, 85, 247, 0.40);
+  --accent-rgb:   168, 85, 247;
+  --line:         rgba(168, 85, 247, 0.13);
+  --line-strong:  rgba(168, 85, 247, 0.25);
+  --shadow:       rgba(0, 0, 0, 0.60);
+}
+
+/* ─── THEME: Mix (Cyan + Orange) ──────────────────── */
+:root[data-theme="mix"] {
+  --ink:                   #060810;
+  --ink-soft:              #0a0c14;
+  --charcoal:              #10131f;
+  --paper:                 #ffffff;
+  --paper-soft:            rgba(255, 255, 255, 0.70);
+  --muted:                 rgba(255, 255, 255, 0.36);
+  /* Primary: Cyan */
+  --accent:                #22D3EE;
+  /* Hover flips to Orange — the "surprise" */
+  --accent-hover:          #F97316;
+  --accent-dim:            rgba(34, 211, 238, 0.12);
+  --accent-glow:           rgba(34, 211, 238, 0.32);
+  --accent-rgb:            34, 211, 238;
+  --line:                  rgba(34, 211, 238, 0.10);
+  --line-strong:           rgba(34, 211, 238, 0.20);
+  --shadow:                rgba(0, 0, 0, 0.55);
+  /* Secondary orange vars for mix-specific overrides */
+  --accent-secondary:      #F97316;
+  --accent-secondary-dim:  rgba(249, 115, 22, 0.15);
+  --accent-secondary-glow: rgba(249, 115, 22, 0.35);
+}
+
+/* Mix theme: hover states flip from cyan → orange on key elements */
+[data-theme="mix"] .primary-action:hover,
+[data-theme="mix"] .nav-link:hover,
+[data-theme="mix"] .story-row:hover h3,
+[data-theme="mix"] .edu-row:hover .edu-card h3 {
+  color: var(--accent-secondary);
+}
+
+[data-theme="mix"] .primary-action:hover {
+  background: var(--accent-secondary);
+  border-color: var(--accent-secondary);
+  box-shadow: 0 0 24px var(--accent-secondary-glow);
+}
+
+[data-theme="mix"] .edu-row:hover .edu-dot,
+[data-theme="mix"] .edu-row:hover .edu-dot-active {
+  border-color: var(--accent-secondary);
+  background-color: var(--accent-secondary);
+  box-shadow: 0 0 14px var(--accent-secondary-glow);
+}
+
+[data-theme="mix"] .edu-row:hover .edu-line {
+  background-color: var(--accent-secondary);
+}
+
+[data-theme="mix"] .profile-strip a:hover {
+  background: var(--accent-secondary);
+}
+
+[data-theme="mix"] .skill-tag.is-advanced:hover {
+  background: var(--accent-secondary-dim);
+  border-color: var(--accent-secondary);
+  color: var(--accent-secondary);
 }
 
 * {
@@ -208,6 +366,73 @@ img {
   transform: scaleX(0);
   transform-origin: left center;
 }
+
+/* ── Theme Switcher ───────────────────────────────── */
+.theme-switcher {
+  position: fixed;
+  bottom: 28px;
+  left: 24px;
+  z-index: 9997;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 10px;
+  background: rgba(10, 10, 10, 0.80);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 999px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.55);
+}
+
+.theme-switcher-label {
+  font-size: 0.56rem;
+  font-family: 'Dune Rise', Inter, sans-serif;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.35);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  user-select: none;
+  margin-bottom: 2px;
+}
+
+.theme-swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: none;
+  outline: none;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+              border-color 0.22s ease,
+              box-shadow 0.22s ease;
+  position: relative;
+}
+
+.theme-swatch:hover {
+  transform: scale(1.25);
+}
+
+.theme-swatch.is-active {
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
+  transform: scale(1.15);
+}
+
+.theme-swatch[data-t="yellow"]  { background: #FFED29; }
+.theme-swatch[data-t="cyan"]    { background: #22D3EE; }
+.theme-swatch[data-t="ice"]     { background: #E2E8F0; }
+.theme-swatch[data-t="emerald"] { background: #10B981; }
+.theme-swatch[data-t="orange"]  { background: #F97316; }
+.theme-swatch[data-t="brown"]   { background: #C07840; }
+.theme-swatch[data-t="purple"]  { background: #A855F7; }
+/* Split half-cyan, half-orange to show it's a mix */
+.theme-swatch[data-t="mix"] {
+  background: conic-gradient(#22D3EE 0deg 180deg, #F97316 180deg 360deg);
+}
+
 
 .loading-screen {
   position: fixed;

@@ -1284,6 +1284,42 @@ const Footer = () => (
   </footer>
 );
 
+const THEMES = [
+  { id: 'yellow',  label: 'Yellow'  },
+  { id: 'purple',  label: 'Purple'  },
+  { id: 'orange',  label: 'Orange'  },
+  { id: 'ice',     label: 'Ice'     },
+];
+
+
+const ThemeSwitcher = () => {
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('portfolio-theme') || 'purple';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('portfolio-theme', theme);
+  }, [theme]);
+
+  return (
+    <div className="theme-switcher" aria-label="Theme switcher">
+      <span className="theme-switcher-label">THEME</span>
+      {THEMES.map((t) => (
+        <button
+          key={t.id}
+          className={`theme-swatch ${theme === t.id ? 'is-active' : ''}`}
+          data-t={t.id}
+          aria-label={`${t.label} theme`}
+          title={t.label}
+          onClick={() => setTheme(t.id)}
+          data-cursor-hover
+        />
+      ))}
+    </div>
+  );
+};
+
 const App = () => {
   const [loading, setLoading] = useState(true);
   const appRef = useRef(null);
@@ -1353,6 +1389,7 @@ const App = () => {
       <div className="grain-overlay" aria-hidden="true" />
       <div className="paper-grid" aria-hidden="true" />
       <CustomCursor />
+      <ThemeSwitcher />
       <AnimatePresence>
         {loading && <LoadingScreen onComplete={completeLoading} />}
       </AnimatePresence>
