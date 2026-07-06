@@ -575,6 +575,7 @@ const Navigation = () => {
 
 const Hero = ({ ready }) => {
   const sectionRef = useRef(null);
+  const orbRef = useRef(null);
 
   useEffect(() => {
     if (!ready) return undefined;
@@ -594,15 +595,41 @@ const Hero = ({ ready }) => {
         duration: 1.1,
         ease: 'power3.out',
       });
+
     }, sectionRef);
 
     return () => ctxGSAP.revert();
+  }, [ready]);
+
+  useEffect(() => {
+    if (!ready || !sectionRef.current) return undefined;
+    const section = sectionRef.current;
+    const orb = orbRef.current;
+    if (!orb) return undefined;
+
+    const orbX = gsap.quickTo(orb, 'left', { duration: 0.8, ease: 'power3.out' });
+    const orbY = gsap.quickTo(orb, 'top', { duration: 0.8, ease: 'power3.out' });
+
+    const handleMove = (e) => {
+      const rect = section.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      orbX(x);
+      orbY(y);
+    };
+
+    section.addEventListener('mousemove', handleMove, { passive: true });
+    return () => section.removeEventListener('mousemove', handleMove);
   }, [ready]);
 
   return (
     <>
       <section id="home" ref={sectionRef} className="hero-section">
         <div className="hero-outline-mark" aria-hidden="true">RS</div>
+
+        {/* Cursor-following gradient orb */}
+        <div ref={orbRef} className="hero-gradient-orb" aria-hidden="true" />
+
 
         <div className="hero-content">
           <div className="hero-copy">
@@ -1202,16 +1229,17 @@ const App = () => {
       gsap.utils.toArray('[data-reveal]').forEach((item) => {
         gsap.fromTo(
           item,
-          { y: 48, opacity: 0, rotateX: 4 },
+          { y: 48, opacity: 0, rotateX: 4, filter: 'blur(4px)' },
           {
             y: 0,
             opacity: 1,
             rotateX: 0,
-            duration: 0.9,
+            filter: 'blur(0px)',
+            duration: 1,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: item,
-              start: 'top 82%',
+              start: 'top 85%',
             },
           }
         );

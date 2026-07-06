@@ -560,8 +560,9 @@ img {
   gap: 34px;
   min-height: 92svh;
   padding: 128px 24px 42px;
+  position: relative;
+  z-index: 1;
 }
-
 
 .hero-section::before {
   content: '';
@@ -572,6 +573,36 @@ img {
     radial-gradient(ellipse 60% 55% at 72% 42%, rgba(168, 85, 247, 0.10) 0%, transparent 70%),
     radial-gradient(ellipse 40% 40% at 30% 65%, rgba(168, 85, 247, 0.06) 0%, transparent 60%),
     var(--ink);
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.25) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.25) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: center bottom;
+  transform: perspective(600px) rotateX(60deg) scale(2.5);
+  transform-origin: bottom center;
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 65%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 10%, rgba(0, 0, 0, 0) 65%);
+  pointer-events: none;
+  animation: grid-move 2.5s linear infinite;
+}
+
+@keyframes grid-move {
+  0% {
+    background-position: center 0px;
+  }
+  100% {
+    background-position: center 60px;
+  }
 }
 
 /* Cursor-following 3D scene — full hero overlay, pointer-events off */
@@ -604,11 +635,108 @@ img {
   top: 28%;
   z-index: 0;
   color: transparent;
+  font-family: 'Clash Display', Inter, sans-serif;
   font-size: clamp(9rem, 27vw, 28rem);
-  font-weight: 950;
+  font-weight: 700;
   line-height: 0.8;
-  -webkit-text-stroke: 1px rgba(168, 85, 247, 0.08);
+  -webkit-text-stroke: 2px rgba(168, 85, 247, 0.18);
   user-select: none;
+}
+
+/* ── Cursor-following gradient orb ── */
+.hero-gradient-orb {
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  width: min(500px, 50vw);
+  height: min(500px, 50vw);
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(168, 85, 247, 0.25) 0%,
+    rgba(124, 58, 237, 0.12) 35%,
+    rgba(59, 130, 246, 0.06) 60%,
+    transparent 80%
+  );
+  filter: blur(60px);
+  transform: translate(-50%, -50%);
+  will-change: top, left;
+  transition: opacity 0.4s ease;
+}
+
+/* ── Floating code snippet ── */
+.hero-floating-code {
+  position: absolute;
+  right: 8vw;
+  top: 38%;
+  z-index: 1;
+  width: min(300px, 34vw);
+  border: 1px solid rgba(168, 85, 247, 0.18);
+  border-radius: 10px;
+  background: rgba(15, 11, 24, 0.65);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+  user-select: none;
+  pointer-events: none;
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(168, 85, 247, 0.06);
+  animation: float-code 5s ease-in-out infinite;
+}
+
+@keyframes float-code {
+  0%, 100% { transform: translateY(0px); }
+  50%      { transform: translateY(-12px); }
+}
+
+.floating-code-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.12);
+}
+
+.fc-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.fc-dot--red    { background: #ff5f57; }
+.fc-dot--yellow { background: #febc2e; }
+.fc-dot--green  { background: #28c840; }
+
+.fc-filename {
+  margin-left: 8px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-family: ui-monospace, 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.floating-code-body {
+  margin: 0;
+  padding: 14px 16px;
+  font-family: ui-monospace, 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.76rem;
+  line-height: 1.7;
+  color: rgba(168, 85, 247, 0.6);
+  overflow: hidden;
+}
+
+.floating-code-body code {
+  display: block;
+  white-space: pre;
+}
+
+.fc-line-num {
+  display: inline-block;
+  width: 22px;
+  margin-right: 12px;
+  color: rgba(255, 255, 255, 0.12);
+  text-align: right;
 }
 
 
