@@ -2302,11 +2302,31 @@ img {
 }
 
 .footer-wordmark {
+  --spotlight-x: 50%;
+  --spotlight-y: 50%;
   overflow-wrap: anywhere;
-  color: rgba(168, 85, 247, 0.08);
+  color: rgba(168, 85, 247, 0.14);
   font-family: 'Dune Rise', Inter, sans-serif;
   font-size: 3rem;
   line-height: 1.1;
+  position: relative;
+  cursor: default;
+  transition: color 0.4s ease;
+  background: radial-gradient(
+    300px circle at var(--spotlight-x) var(--spotlight-y),
+    rgba(168, 85, 247, 0.55) 0%,
+    rgba(168, 85, 247, 0.18) 35%,
+    rgba(168, 85, 247, 0.04) 70%,
+    transparent 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: rgba(168, 85, 247, 0.14);
+  transition: -webkit-text-fill-color 0.3s ease;
+}
+
+.footer-wordmark:hover {
+  -webkit-text-fill-color: transparent;
 }
 
 .footer-bottom {
@@ -2374,6 +2394,15 @@ img {
 
   .footer-wordmark {
     font-size: 5.6rem;
+    background: radial-gradient(
+      450px circle at var(--spotlight-x) var(--spotlight-y),
+      rgba(168, 85, 247, 0.55) 0%,
+      rgba(168, 85, 247, 0.18) 35%,
+      rgba(168, 85, 247, 0.04) 70%,
+      transparent 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
   }
 
   .footer-bottom {

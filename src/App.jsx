@@ -1165,23 +1165,43 @@ const TerminalContact = () => {
   );
 };
 
-const Footer = () => (
-  <footer className="site-footer">
-    <div className="footer-wordmark">RAJ SRIVASTAVA</div>
-    <div className="footer-bottom">
-      <div className="footer-domain" style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>
-        &copy; {new Date().getFullYear()} rajsrivastava.in
-      </div>
-      <button
-        className="footer-top-btn"
-        onClick={() => gsapScrollTo('home')}
+const Footer = () => {
+  const wordmarkRef = useRef(null);
+
+  const handleMouseMove = (e) => {
+    const el = wordmarkRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    el.style.setProperty('--spotlight-x', `${x}px`);
+    el.style.setProperty('--spotlight-y', `${y}px`);
+  };
+
+  return (
+    <footer className="site-footer">
+      <div
+        className="footer-wordmark"
+        ref={wordmarkRef}
+        onMouseMove={handleMouseMove}
       >
-        Back to top
-        <ArrowUpRight size={15} />
-      </button>
-    </div>
-  </footer>
-);
+        RAJ SRIVASTAVA
+      </div>
+      <div className="footer-bottom">
+        <div className="footer-domain" style={{ color: 'var(--muted)', fontSize: '0.85rem' }}>
+          &copy; {new Date().getFullYear()} rajsrivastava.in
+        </div>
+        <button
+          className="footer-top-btn"
+          onClick={() => gsapScrollTo('home')}
+        >
+          Back to top
+          <ArrowUpRight size={15} />
+        </button>
+      </div>
+    </footer>
+  );
+};
 
 
 const App = () => {
