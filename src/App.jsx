@@ -9,6 +9,7 @@ import {
   ArrowUpRight,
   Award,
   Braces,
+  ChevronDown,
   Code2,
   Command,
   Database,
@@ -18,12 +19,15 @@ import {
   Mail,
   MapPin,
   Menu,
+  Moon,
   Send,
+  Sun,
   Terminal,
   X,
 } from 'lucide-react';
 import { portfolio } from './data/portfolio';
-import AuroraCanvas from './components/AuroraCanvas';
+import HeroScene from './components/HeroScene';
+import AmbientNightSound from './components/AmbientNightSound';
 
 // Module-level scroll helper — usable by any component
 const gsapScrollTo = (id) => {
@@ -436,7 +440,7 @@ const MagneticLink = ({ href, children, className = '', external = false, ...pro
   );
 };
 
-const Navigation = () => {
+const Navigation = ({ isDay, setIsDay }) => {
   const [active, setActive] = useState('home');
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -533,6 +537,17 @@ const Navigation = () => {
         </nav>
 
         <button
+          className="nav-theme-toggle-btn"
+          type="button"
+          onClick={() => setIsDay(!isDay)}
+          aria-label={isDay ? "Switch to Polar Night" : "Switch to Daylight"}
+          title={isDay ? "Switch to Polar Night" : "Switch to Daylight"}
+        >
+          {isDay ? <Sun size={14} className="icon-sun text-amber-500" /> : <Moon size={14} className="icon-moon text-cyan-400" />}
+          <span>{isDay ? 'Daylight' : 'Night'}</span>
+        </button>
+
+        <button
           className="menu-toggle"
           type="button"
           onClick={() => setOpen((current) => !current)}
@@ -588,6 +603,15 @@ const Navigation = () => {
                   </a>
                 ))}
               </div>
+              <button
+                className="nav-theme-toggle-btn"
+                style={{ marginTop: 22, padding: '7px 16px', fontSize: '0.78rem' }}
+                type="button"
+                onClick={() => setIsDay(!isDay)}
+              >
+                {isDay ? <Sun size={15} className="text-amber-500" /> : <Moon size={15} className="text-cyan-400" />}
+                <span>{isDay ? 'Alpine Daylight (Active)' : 'Polar Night (Active)'}</span>
+              </button>
             </div>
           </motion.div>
         )}
@@ -597,101 +621,183 @@ const Navigation = () => {
 };
 
 
-const Hero = ({ ready }) => {
+const Hero = ({ ready, isDay, setIsDay }) => {
   const sectionRef = useRef(null);
 
+  // Entrance staggered reveals
   useEffect(() => {
     if (!ready) return undefined;
     const ctxGSAP = gsap.context(() => {
-      // Code label fade in
-      gsap.from('.hero-code-label', {
-        y: -16,
+      // Norse name cinematic fade & tracking expansion
+      gsap.from('.hero-norse-name', {
+        y: 40,
         opacity: 0,
-        delay: 0.6,
-        duration: 0.7,
+        letterSpacing: '0.35em',
+        delay: 0.35,
+        duration: 1.4,
         ease: 'power3.out',
       });
 
-      // Accent line draw
-      gsap.from('.hero-accent-line', {
-        scaleX: 0,
-        delay: 1.4,
+      // Norse runes accent reveal
+      gsap.from('.hero-norse-runes', {
+        opacity: 0,
+        scaleX: 0.6,
+        delay: 0.55,
         duration: 0.9,
-        ease: 'power3.inOut',
-      });
-
-      // Sub content stagger
-      gsap.from('.hero-sub-content > *', {
-        y: 28,
-        opacity: 0,
-        stagger: 0.13,
-        delay: 1.1,
-        duration: 0.85,
         ease: 'power3.out',
       });
 
+      // Norse subtitle fade in
+      gsap.from('.hero-norse-subtitle', {
+        y: 18,
+        opacity: 0,
+        delay: 0.7,
+        duration: 1.0,
+        ease: 'power3.out',
+      });
+
+      // scroll indicator
+      gsap.from('.hero-scroll-indicator', {
+        y: 15,
+        opacity: 0,
+        delay: 0.5,
+        duration: 0.6,
+        ease: 'power3.out',
+      });
     }, sectionRef);
 
     return () => ctxGSAP.revert();
   }, [ready]);
 
+  // Cinematic 3D Layered Parallax
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const handleMouseMove = (e) => {
+      const rect = section.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      const y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+
+      // 1. Unified Background: Mountains & Stars move together synchronously in the deep distance
+      gsap.to(['.hero-night-mountain', '.hero-day-mountain', '.hero-twinkling-stars-canvas'], {
+        x: x * -10,
+        y: y * -6,
+        duration: 1.2,
+        ease: 'power2.out',
+        overwrite: 'auto',
+      });
+
+      // 2. Midground: Soaring Birds float with atmospheric layer depth
+      gsap.to('.hero-bird-track', {
+        x: x * 18,
+        y: y * 10,
+        duration: 0.9,
+        ease: 'power2.out',
+        overwrite: 'auto',
+      });
+
+      // 3. Foreground: Centered Norse Title tilts with true 3D perspective
+      gsap.to('.hero-norse-wrap', {
+        x: x * 10,
+        y: y * 6,
+        rotationY: x * 5,
+        rotationX: -y * 4,
+        transformPerspective: 1000,
+        duration: 0.8,
+        ease: 'power2.out',
+        overwrite: 'auto',
+      });
+    };
+
+    const handleMouseLeave = () => {
+      gsap.to(['.hero-night-mountain', '.hero-day-mountain', '.hero-twinkling-stars-canvas'], {
+        x: 0,
+        y: 0,
+        duration: 1.2,
+        ease: 'power2.out',
+      });
+      gsap.to('.hero-bird-track', { x: 0, y: 0, duration: 1.0, ease: 'power2.out' });
+      gsap.to('.hero-norse-wrap', {
+        x: 0,
+        y: 0,
+        rotationY: 0,
+        rotationX: 0,
+        duration: 1.0,
+        ease: 'power2.out',
+      });
+    };
+
+    section.addEventListener('pointermove', handleMouseMove, { passive: true });
+    section.addEventListener('pointerleave', handleMouseLeave, { passive: true });
+
+    return () => {
+      section.removeEventListener('pointermove', handleMouseMove);
+      section.removeEventListener('pointerleave', handleMouseLeave);
+    };
+  }, []);
+
   return (
     <>
-      <section id="home" ref={sectionRef} className="hero-section">
-        <div className="hero-outline-mark" aria-hidden="true">RS</div>
+      <section id="home" ref={sectionRef} className={`hero-section ${isDay ? 'is-day-mode' : ''}`}>
+        {/* Mountain horizon (Day / Night crossfade) + flying birds + twinkling stars */}
+        <HeroScene isDay={isDay} />
 
-        <div className="hero-content">
-          {/* Left column — text */}
-          <div className="hero-copy">
-            <div className="hero-code-label" aria-hidden="true">
-              <span className="hero-code-slash">//</span> full-stack developer
-            </div>
-
-            <h1 className="hero-glitch">
-              <ScrambleText text="RAJ" delay={200} ready={ready} />
-              <div className="hero-accent-line" aria-hidden="true" />
-              <div className="hero-name-sub">
-                <ScrambleText text="SRIVASTAVA" delay={520} ready={ready} />
-              </div>
-            </h1>
-
-            <div className="hero-sub-content">
-              <div className="hero-role">
-                <RoleTicker />
-              </div>
-              <p>{portfolio.profile.tagline}</p>
-              <div className="hero-actions">
-                <MagneticLink className="primary-action" href="#projects">
-                  Explore work
-                  <ArrowUpRight size={17} />
-                </MagneticLink>
-                <MagneticLink
-                  className="secondary-action"
-                  href={portfolio.profile.resume}
-                  external
-                >
-                  Resume
-                  <Download size={16} />
-                </MagneticLink>
-              </div>
-            </div>
-          </div>
-
-
+        {/* Top Control Bar: Horizon Mode (Day/Night) + Ambient Breeze Sound */}
+        <div className="hero-top-controls">
+          <button
+            type="button"
+            className={`hero-time-toggle-btn ${isDay ? 'is-day' : ''}`}
+            onClick={() => setIsDay(!isDay)}
+            aria-label={isDay ? 'Switch to Night Horizon' : 'Switch to Day Horizon'}
+            title={isDay ? 'Switch to Night Horizon' : 'Switch to Day Horizon'}
+          >
+            {isDay ? <Sun size={14} className="control-icon icon-sun" /> : <Moon size={14} className="control-icon icon-moon" />}
+            <span className="control-label">{isDay ? 'Horizon: Day' : 'Horizon: Night'}</span>
+          </button>
+          <AmbientNightSound />
         </div>
 
-        {/* Scroll pill */}
+        {/* Clean centered name in Norse font + runes + subtitle */}
+        <div className="hero-norse-wrap">
+          {/* Norse Movie Font Title */}
+          <h1 className="hero-norse-name" aria-label="Raj Srivastava">
+            RAJ SRIVASTAVA
+          </h1>
+
+          {/* Norse Rune Accents */}
+          <div className="hero-norse-runes" aria-hidden="true">
+            <span className="rune-line" />
+            <span className="rune-char">ᚱ</span>
+            <span className="rune-char">ᛇ</span>
+            <span className="rune-char">ᛃ</span>
+            <span className="rune-char">ᛋ</span>
+            <span className="rune-char">ᛏ</span>
+            <span className="rune-line" />
+          </div>
+
+          {/* Subtitle */}
+          <p className="hero-norse-subtitle">
+            <span>FULL-STACK ENGINEER</span>
+            <span className="hero-norse-dot" aria-hidden="true">·</span>
+            <span>MERN ARCHITECT</span>
+            <span className="hero-norse-dot" aria-hidden="true">·</span>
+            <span>SYSTEMS BUILDER</span>
+          </p>
+        </div>
+
+        {/* Cinematic Scroll Indicator */}
         <button
-          className="scroll-pill"
+          className="hero-scroll-indicator"
           onClick={() => gsapScrollTo('manifesto')}
           aria-label="Scroll down"
         >
-          <span className="scroll-pill-mouse">
-            <span className="scroll-pill-wheel" />
-          </span>
-          <span className="scroll-pill-label">SCROLL</span>
+          <div className="scroll-mouse">
+            <span className="scroll-wheel" />
+          </div>
+          <span className="scroll-text">SCROLL</span>
+          <ChevronDown size={14} className="scroll-arrow" />
         </button>
-
       </section>
       <TickerBand />
     </>
@@ -1242,8 +1348,34 @@ const Footer = () => {
 
 const App = () => {
   const [loading, setLoading] = useState(true);
+  const [isDay, setIsDay] = useState(() => {
+    try {
+      const saved = localStorage.getItem('portfolio-theme');
+      if (saved) return saved === 'day';
+    } catch {
+      // ignore
+    }
+    // Default according to local daylight hours (6 AM to 7 PM)
+    const hour = new Date().getHours();
+    return hour >= 6 && hour < 19;
+  });
   const appRef = useRef(null);
   const completeLoading = useCallback(() => setLoading(false), []);
+
+  useEffect(() => {
+    if (isDay) {
+      document.documentElement.classList.add('theme-day');
+      document.body.classList.add('theme-day');
+    } else {
+      document.documentElement.classList.remove('theme-day');
+      document.body.classList.remove('theme-day');
+    }
+    try {
+      localStorage.setItem('portfolio-theme', isDay ? 'day' : 'night');
+    } catch {
+      // ignore
+    }
+  }, [isDay]);
 
   useEffect(() => {
     if (loading) return undefined;
@@ -1307,7 +1439,6 @@ const App = () => {
 
   return (
     <>
-      <AuroraCanvas />
       <AmbientGlow />
       <div className="app-wrapper">
       <div className="grain-overlay" aria-hidden="true" />
@@ -1318,9 +1449,9 @@ const App = () => {
       </AnimatePresence>
 
       <div ref={appRef} className={`app-shell ${loading ? 'is-loading' : 'is-ready'}`}>
-        <Navigation />
+        <Navigation isDay={isDay} setIsDay={setIsDay} />
         <main>
-          <Hero ready={!loading} />
+          <Hero ready={!loading} isDay={isDay} setIsDay={setIsDay} />
           <Manifesto />
           <About />
           <Skills />

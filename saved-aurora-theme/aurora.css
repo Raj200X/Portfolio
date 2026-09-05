@@ -1,0 +1,177 @@
+/* ═══════════════════════════════════════════════════════════════════
+   ARCTIC AURORA THEME & CANVAS STYLESHEET
+   Saved for future use across projects.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Arctic Aurora Palette Tokens */
+  --aurora-cyan:     #22D3EE;
+  --aurora-sky:      #38BDF8;
+  --aurora-green:    #4ADE80;
+  --aurora-emerald:  #34D399;
+  --aurora-cobalt:   #6366F1;
+  --aurora-violet:   #A855F7;
+  --aurora-frost:    #F0FDFA;
+  --aurora-abyss:    #040914;
+  --aurora-twilight: #1E1B4B;
+  --aurora-shadow:   #042F2E;
+
+  /* Aurora Gradients */
+  --aurora:       linear-gradient(135deg, #22D3EE, #38BDF8, #4ADE80, #34D399, #6366F1);
+  --aurora-h:     linear-gradient(90deg, #22D3EE, #38BDF8, #4ADE80, #34D399, #6366F1);
+  --aurora-vivid: linear-gradient(135deg, #67E8F9, #60A5FA, #4ADE80, #22D3EE, #818CF8);
+
+  /* Tactile 3D Fluted Louver Texture + Arctic Aurora Wave */
+  --aurora-ribbon:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.22) 0px,
+      rgba(0, 0, 0, 0.22) 1.5px,
+      transparent 1.5px,
+      transparent 12px
+    ),
+    linear-gradient(
+      140deg,
+      #040914 0%,
+      #1e1b4b 14%,
+      #0369a1 28%,
+      #22d3ee 42%,
+      #f0fdfa 54%,
+      #34d399 68%,
+      #042f2e 84%,
+      #020617 100%
+    );
+
+  /* Neon Aurora Border with Obsidian Breaks */
+  --aurora-border: linear-gradient(
+    135deg,
+    #22d3ee 0%,
+    rgba(3, 5, 8, 0.85) 28%,
+    #4ade80 50%,
+    rgba(3, 5, 8, 0.85) 72%,
+    #a855f7 100%
+  );
+}
+
+/* ── Fullscreen Interactive Northern Lights Canvas ── */
+.aurora-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(35px);
+  opacity: 0.95;
+}
+
+/* ── Scenic Hero Layer Aurora Canvas (for skies) ── */
+.hero-aurora-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 65%;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  filter: blur(18px);
+  opacity: 0.85;
+}
+
+/* ── Global Cursor Ambient Light Glow ── */
+.global-gradient-orb {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: min(580px, 55vw);
+  height: min(580px, 55vw);
+  margin-top: -290px;
+  margin-left: -290px;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(34, 211, 238, 0.16) 0%,
+    rgba(74, 222, 128, 0.10) 35%,
+    rgba(99, 102, 241, 0.05) 60%,
+    transparent 75%
+  );
+  filter: blur(48px);
+  opacity: 0.9;
+  transition: opacity 0.4s ease;
+}
+
+/* ── Tactile 3D Fluted Arctic Aurora Action Button ── */
+.aurora-btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 13px 28px;
+  border-radius: 9999px;
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(#050505, #050505) padding-box,
+    linear-gradient(135deg, #22d3ee 0%, #050505 32%, #34d399 65%, #050505 85%, #6366f1 100%) border-box;
+  color: #ffffff;
+  font-family: ui-monospace, 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow:
+    0 0 25px rgba(34, 211, 238, 0.25),
+    0 10px 30px rgba(0, 0, 0, 0.7);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.aurora-btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--aurora-ribbon);
+  background-size: 100% 100%, 200% 200%;
+  opacity: 0.88;
+  z-index: 0;
+  transition: opacity 0.35s ease, transform 0.5s ease;
+}
+
+.aurora-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 35px rgba(34, 211, 238, 0.45),
+    0 0 55px rgba(52, 211, 153, 0.3),
+    0 12px 35px rgba(0, 0, 0, 0.9);
+}
+
+.aurora-btn-primary:hover::before {
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+.aurora-btn-primary > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Arctic Aurora Gradient Text ── */
+.aurora-gradient-text {
+  background: linear-gradient(
+    135deg,
+    #22d3ee 0%,
+    #f0fdfa 38%,
+    #34d399 70%,
+    #38bdf8 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+  display: inline;
+  filter: drop-shadow(0 0 16px rgba(34, 211, 238, 0.4));
+}
