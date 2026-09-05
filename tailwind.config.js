@@ -12,7 +12,7 @@ export default {
       },
       colors: {
         slate: {
-          950: '#020817',
+          950: '#050505',
         }
       },
       animation: {

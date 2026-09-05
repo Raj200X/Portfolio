@@ -16,12 +16,14 @@ import {
   ExternalLink,
   GraduationCap,
   Mail,
+  MapPin,
   Menu,
   Send,
   Terminal,
   X,
 } from 'lucide-react';
 import { portfolio } from './data/portfolio';
+import AuroraCanvas from './components/AuroraCanvas';
 
 // Module-level scroll helper — usable by any component
 const gsapScrollTo = (id) => {
@@ -146,6 +148,28 @@ const CustomCursor = () => {
       <div ref={ringRef} className="cursor-ring" />
     </>
   );
+};
+
+const AmbientGlow = () => {
+  const orbRef = useRef(null);
+
+  useEffect(() => {
+    const orb = orbRef.current;
+    if (!orb) return undefined;
+
+    const orbX = gsap.quickTo(orb, 'x', { duration: 0.85, ease: 'power3.out' });
+    const orbY = gsap.quickTo(orb, 'y', { duration: 0.85, ease: 'power3.out' });
+
+    const handleMove = (e) => {
+      orbX(e.clientX);
+      orbY(e.clientY);
+    };
+
+    window.addEventListener('mousemove', handleMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMove);
+  }, []);
+
+  return <div ref={orbRef} className="global-gradient-orb" aria-hidden="true" />;
 };
 
 const LoadingScreen = ({ onComplete }) => {
@@ -575,11 +599,28 @@ const Navigation = () => {
 
 const Hero = ({ ready }) => {
   const sectionRef = useRef(null);
-  const orbRef = useRef(null);
 
   useEffect(() => {
     if (!ready) return undefined;
     const ctxGSAP = gsap.context(() => {
+      // Code label fade in
+      gsap.from('.hero-code-label', {
+        y: -16,
+        opacity: 0,
+        delay: 0.6,
+        duration: 0.7,
+        ease: 'power3.out',
+      });
+
+      // Accent line draw
+      gsap.from('.hero-accent-line', {
+        scaleX: 0,
+        delay: 1.4,
+        duration: 0.9,
+        ease: 'power3.inOut',
+      });
+
+      // Sub content stagger
       gsap.from('.hero-sub-content > *', {
         y: 28,
         opacity: 0,
@@ -588,38 +629,10 @@ const Hero = ({ ready }) => {
         duration: 0.85,
         ease: 'power3.out',
       });
-      gsap.from('.hero-media', {
-        x: 48,
-        opacity: 0,
-        delay: 0.6,
-        duration: 1.1,
-        ease: 'power3.out',
-      });
 
     }, sectionRef);
 
     return () => ctxGSAP.revert();
-  }, [ready]);
-
-  useEffect(() => {
-    if (!ready || !sectionRef.current) return undefined;
-    const section = sectionRef.current;
-    const orb = orbRef.current;
-    if (!orb) return undefined;
-
-    const orbX = gsap.quickTo(orb, 'left', { duration: 0.8, ease: 'power3.out' });
-    const orbY = gsap.quickTo(orb, 'top', { duration: 0.8, ease: 'power3.out' });
-
-    const handleMove = (e) => {
-      const rect = section.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      orbX(x);
-      orbY(y);
-    };
-
-    section.addEventListener('mousemove', handleMove, { passive: true });
-    return () => section.removeEventListener('mousemove', handleMove);
   }, [ready]);
 
   return (
@@ -627,14 +640,16 @@ const Hero = ({ ready }) => {
       <section id="home" ref={sectionRef} className="hero-section">
         <div className="hero-outline-mark" aria-hidden="true">RS</div>
 
-        {/* Cursor-following gradient orb */}
-        <div ref={orbRef} className="hero-gradient-orb" aria-hidden="true" />
-
-
         <div className="hero-content">
+          {/* Left column — text */}
           <div className="hero-copy">
+            <div className="hero-code-label" aria-hidden="true">
+              <span className="hero-code-slash">//</span> full-stack developer
+            </div>
+
             <h1 className="hero-glitch">
               <ScrambleText text="RAJ" delay={200} ready={ready} />
+              <div className="hero-accent-line" aria-hidden="true" />
               <div className="hero-name-sub">
                 <ScrambleText text="SRIVASTAVA" delay={520} ready={ready} />
               </div>
@@ -661,8 +676,9 @@ const Hero = ({ ready }) => {
               </div>
             </div>
           </div>
-        </div>
 
+
+        </div>
 
         {/* Scroll pill */}
         <button
@@ -675,7 +691,6 @@ const Hero = ({ ready }) => {
           </span>
           <span className="scroll-pill-label">SCROLL</span>
         </button>
-
 
       </section>
       <TickerBand />
@@ -704,7 +719,7 @@ const Manifesto = () => (
     <p className="manifesto-kicker" data-reveal>// raj.stack.executing</p>
     <h2 data-reveal>
       Code is <span className="brush">craft.</span> API's are architecture.
-      <span style={{ color: 'var(--accent)' }}> Both have to earn their place in the stack.</span>
+      <span className="manifesto-gradient-text"> Both have to earn their place in the stack.</span>
     </h2>
     <p className="manifesto-copy" data-reveal>
       From first component to final endpoint, every decision gets made with intent —
@@ -910,25 +925,46 @@ const Education = () => (
         body="Structured computer science and engineering coursework that set my technical baseline."
       />
 
-      <div className="education-layout" data-reveal>
-        <div className="edu-timeline">
-          {portfolio.credentials.education.map((item, i) => (
-            <div key={item.degree} className="edu-row">
-              <div className="edu-marker">
-                <span className="edu-year">{item.period.split(' ').pop()}</span>
-                <div className="edu-line" />
-                {i === 0 && <div className="edu-dot-active" />}
-                {i !== 0 && <div className="edu-dot" />}
+      <div className="education-table" data-reveal>
+        {portfolio.credentials.education.map((item, i) => {
+          const shortCategory = item.degree.includes('Bachelor')
+            ? 'B.Tech — IT'
+            : item.degree.includes('Intermediate')
+            ? 'Intermediate'
+            : 'Matriculation';
+          const isPresent = item.period.toLowerCase().includes('present');
+          const isPCM = item.degree.includes('PCM');
+          const [instName, ...locParts] = item.institution.split(',');
+          const location = locParts.join(',').trim();
+
+          return (
+            <div key={item.degree} className="education-row">
+              <span className="edu-row-num">0{i + 1}</span>
+              <h3 className="edu-row-category">{shortCategory}</h3>
+              <div className="edu-row-tags">
+                <span className="edu-tag">
+                  <GraduationCap size={13} className="edu-tag-icon" />
+                  {instName.trim()}
+                </span>
+                <span className="edu-tag is-score">
+                  <Award size={13} className="edu-tag-icon" />
+                  {item.result}
+                </span>
+                {isPCM && <span className="edu-tag">PCM Stream</span>}
+                {location && (
+                  <span className="edu-tag">
+                    <MapPin size={12} className="edu-tag-icon" />
+                    {location}
+                  </span>
+                )}
               </div>
-              <div className="edu-card">
-                <span className="edu-period">{item.period}</span>
-                <h3>{item.degree}</h3>
-                <p>{item.institution}</p>
-                <strong className="edu-result">{item.result}</strong>
+              <div className="edu-row-period">
+                {isPresent && <span className="edu-pulse-dot" />}
+                <span>{item.period}</span>
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </div>
   </section>
@@ -1093,7 +1129,7 @@ const TerminalContact = () => {
               {socialLinks.map(({ href, label, Icon }) => (
                 <a href={href} target="_blank" rel="noreferrer" key={label}>
                   <Icon size={18} />
-                  {label}
+                  <span>{label}</span>
                 </a>
               ))}
             </div>
@@ -1271,6 +1307,9 @@ const App = () => {
 
   return (
     <>
+      <AuroraCanvas />
+      <AmbientGlow />
+      <div className="app-wrapper">
       <div className="grain-overlay" aria-hidden="true" />
       <div className="paper-grid" aria-hidden="true" />
       <CustomCursor />
@@ -1291,6 +1330,7 @@ const App = () => {
           <TerminalContact />
         </main>
         <Footer />
+      </div>
       </div>
     </>
   );
