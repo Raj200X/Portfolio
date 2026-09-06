@@ -127,46 +127,109 @@ body.theme-day .aurora-canvas {
 }
 
 /* Navigation in Day Mode */
+/* Navigation in Day Mode */
 body.theme-day .site-nav {
   color: #0f172a;
 }
 
-body.theme-day .site-nav .brand-lockup span {
-  color: #0f172a !important;
+/* 1. Hero Viewport State (Not Scrolled) — Alpine Blue Glass */
+body.theme-day .site-nav:not(.is-scrolled) .brand-lockup span {
+  color: #ffffff !important;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45) !important;
 }
 
-body.theme-day .site-nav .brand-lockup small {
-  color: #64748b !important;
+body.theme-day .site-nav:not(.is-scrolled) .brand-lockup small {
+  color: rgba(255, 255, 255, 0.88) !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45) !important;
 }
 
-body.theme-day .site-nav .desktop-nav {
-  background: rgba(255, 255, 255, 0.92) !important;
-  border: 1px solid rgba(15, 23, 42, 0.12) !important;
-  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06) !important;
+body.theme-day .site-nav:not(.is-scrolled) .desktop-nav {
+  background: rgba(2, 132, 199, 0.32) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: 0 8px 30px rgba(2, 132, 199, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+  border-radius: 9999px !important;
+  padding: 4px 8px !important;
 }
 
-body.theme-day .site-nav .desktop-nav a {
-  color: #334155 !important;
+body.theme-day .site-nav:not(.is-scrolled) .desktop-nav a {
+  color: #ffffff !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35) !important;
+  border-radius: 9999px !important;
 }
 
-body.theme-day .site-nav .desktop-nav a span {
-  color: #0284c7 !important;
+body.theme-day .site-nav:not(.is-scrolled) .desktop-nav a span {
+  color: #bae6fd !important;
 }
 
-body.theme-day .site-nav .desktop-nav a:hover,
-body.theme-day .site-nav .desktop-nav a.is-active {
-  color: #0284c7 !important;
-  background: rgba(2, 132, 199, 0.08) !important;
+body.theme-day .site-nav:not(.is-scrolled) .desktop-nav a:hover,
+body.theme-day .site-nav:not(.is-scrolled) .desktop-nav a.is-active {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12) !important;
 }
 
-body.theme-day .site-nav .menu-toggle {
-  color: #0f172a !important;
+body.theme-day .site-nav:not(.is-scrolled) .nav-theme-toggle-btn {
+  background: rgba(2, 132, 199, 0.32) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  color: #ffffff !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: 0 8px 30px rgba(2, 132, 199, 0.22) !important;
 }
 
+body.theme-day .site-nav:not(.is-scrolled) .nav-theme-toggle-btn:hover {
+  background: rgba(2, 132, 199, 0.5) !important;
+  color: #ffffff !important;
+}
+
+body.theme-day .site-nav:not(.is-scrolled) .menu-toggle {
+  background: rgba(2, 132, 199, 0.32) !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  color: #ffffff !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+/* 2. Scrolled State (Past Hero Section) — Clean Alpine Slate */
 body.theme-day .site-nav.is-scrolled {
   background: rgba(248, 250, 252, 0.94) !important;
   border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
   box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05) !important;
+}
+
+body.theme-day .site-nav.is-scrolled .brand-lockup span {
+  color: #0f172a !important;
+}
+
+body.theme-day .site-nav.is-scrolled .brand-lockup small {
+  color: #64748b !important;
+}
+
+body.theme-day .site-nav.is-scrolled .desktop-nav {
+  background: rgba(2, 132, 199, 0.06) !important;
+  border: 1px solid rgba(2, 132, 199, 0.18) !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.04) !important;
+}
+
+body.theme-day .site-nav.is-scrolled .desktop-nav a {
+  color: #334155 !important;
+  border-radius: 9999px !important;
+}
+
+body.theme-day .site-nav.is-scrolled .desktop-nav a span {
+  color: #0284c7 !important;
+}
+
+body.theme-day .site-nav.is-scrolled .desktop-nav a:hover,
+body.theme-day .site-nav.is-scrolled .desktop-nav a.is-active {
+  color: #0284c7 !important;
+  background: rgba(2, 132, 199, 0.12) !important;
+}
+
+body.theme-day .site-nav.is-scrolled .menu-toggle {
+  color: #0f172a !important;
 }
 
 body.theme-day .chapter-rail a,
