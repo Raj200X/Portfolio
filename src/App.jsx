@@ -621,7 +621,7 @@ const Navigation = ({ isDay, setIsDay }) => {
 };
 
 
-const Hero = ({ ready, isDay, setIsDay }) => {
+const Hero = ({ ready, isDay }) => {
   const sectionRef = useRef(null);
 
   // Entrance staggered reveals
@@ -743,18 +743,8 @@ const Hero = ({ ready, isDay, setIsDay }) => {
         {/* Mountain horizon (Day / Night crossfade) + flying birds + twinkling stars */}
         <HeroScene isDay={isDay} />
 
-        {/* Top Control Bar: Horizon Mode (Day/Night) + Ambient Breeze Sound */}
+        {/* Top Control Bar: Ambient Breeze Sound */}
         <div className="hero-top-controls">
-          <button
-            type="button"
-            className={`hero-time-toggle-btn ${isDay ? 'is-day' : ''}`}
-            onClick={() => setIsDay(!isDay)}
-            aria-label={isDay ? 'Switch to Night Horizon' : 'Switch to Day Horizon'}
-            title={isDay ? 'Switch to Night Horizon' : 'Switch to Day Horizon'}
-          >
-            {isDay ? <Sun size={14} className="control-icon icon-sun" /> : <Moon size={14} className="control-icon icon-moon" />}
-            <span className="control-label">{isDay ? 'Horizon: Day' : 'Horizon: Night'}</span>
-          </button>
           <AmbientNightSound />
         </div>
 
@@ -858,7 +848,7 @@ const About = () => (
       <div className="about-layout">
         <div className="about-statement" data-reveal>
           <p>
-            Third-year IT student at LPU. I spend most of my time building MERN
+            Fourth-year IT student at LPU. I spend most of my time building MERN
             apps, grinding DSA, and figuring out why my code works before it ships.
             I care about the full picture — clean UI on the frontend, solid logic on
             the backend, and systems that don't fall apart when it matters. I don't
@@ -1451,7 +1441,7 @@ const App = () => {
       <div ref={appRef} className={`app-shell ${loading ? 'is-loading' : 'is-ready'}`}>
         <Navigation isDay={isDay} setIsDay={setIsDay} />
         <main>
-          <Hero ready={!loading} isDay={isDay} setIsDay={setIsDay} />
+          <Hero ready={!loading} isDay={isDay} />
           <Manifesto />
           <About />
           <Skills />

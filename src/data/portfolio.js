@@ -6,7 +6,7 @@ export const portfolio = {
     tagline:
       'I design interfaces like scenes, build APIs like systems, and turn coursework curiosity into products that feel intentional.',
     intro:
-      'Third-year IT student at LPU. I spend most of my time building MERN apps, grinding DSA, and figuring out why my code works before it ships.',
+      'Fourth-year IT student at LPU. I spend most of my time building MERN apps, grinding DSA, and figuring out why my code works before it ships.',
     location: 'India',
     availability: 'Open to internships and freelance builds',
     email: 'ggrajsrivastav0@gmail.com',
