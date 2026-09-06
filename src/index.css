@@ -99,9 +99,13 @@ body.theme-day {
 
 body.theme-day {
   background:
-    linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
-    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 44%, #f8fafc 100%);
-  color: #0f172a;
+    radial-gradient(ellipse 90% 50% at 50% 0%, rgba(14, 165, 233, 0.18) 0%, transparent 65%),
+    radial-gradient(ellipse 80% 50% at 85% 40%, rgba(56, 189, 248, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 15% 75%, rgba(2, 132, 199, 0.10) 0%, transparent 60%),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(180deg, #dbeafe 0%, #e0f2fe 18%, #e2e8f0 42%, #edf2f7 68%, #cbd5e1 100%);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 96px 96px, auto;
+  color: #0a1120;
   transition: background 0.6s ease, color 0.4s ease;
 }
 
@@ -182,6 +186,15 @@ body.theme-day .site-nav:not(.is-scrolled) .nav-theme-toggle-btn {
   color: #ffffff !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
+  width: 106px !important;
+  min-width: 106px !important;
+  max-width: 106px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0 12px !important;
+  margin-left: auto !important;
+  border-radius: 4px !important;
+  box-sizing: border-box !important;
 }
 
 body.theme-day .site-nav:not(.is-scrolled) .nav-theme-toggle-btn:hover {
@@ -194,6 +207,7 @@ body.theme-day .site-nav:not(.is-scrolled) .menu-toggle {
   border: 1px solid rgba(56, 189, 248, 0.35) !important;
   color: #ffffff !important;
   backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
 }
 
 /* 2. Scrolled State (Past Hero Section) — Matching dark mode structure */
@@ -238,14 +252,34 @@ body.theme-day .site-nav.is-scrolled .menu-toggle {
   color: #0f172a !important;
 }
 
+/* Chapter Rail in Day Mode — Crisp Frosted Alpine Glass & Vivid Azure Active State */
 body.theme-day .chapter-rail a,
 body.theme-day .chapter-rail button {
-  color: #64748b !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(2, 132, 199, 0.28) !important;
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+}
+
+body.theme-day .chapter-rail a:hover,
+body.theme-day .chapter-rail button:hover {
+  background: #ffffff !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
+  transform: translateX(-4px) !important;
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.2) !important;
 }
 
 body.theme-day .chapter-rail a.is-active,
 body.theme-day .chapter-rail button.is-active {
-  color: #0f172a !important;
+  background: #0284c7 !important;
+  border-color: #0284c7 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4) !important;
+  transform: translateX(-4px) !important;
 }
 
 body.theme-day .chapter-rail-fill {
@@ -271,14 +305,20 @@ body.theme-day .global-gradient-orb {
   );
 }
 
-/* Day Mode Navbar Theme Toggle Button */
+/* Universal Navbar Theme Toggle Button — Identical dimensions in both modes */
 .nav-theme-toggle-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  padding: 5px 12px;
-  margin-left: 12px;
-  border-radius: 9999px;
+  width: 106px;
+  min-width: 106px;
+  max-width: 106px;
+  height: 38px;
+  min-height: 38px;
+  padding: 0 12px;
+  margin-left: auto;
+  border-radius: 4px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--line-strong);
   color: var(--paper-soft);
@@ -287,6 +327,7 @@ body.theme-day .global-gradient-orb {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
+  box-sizing: border-box;
   transition: all 0.25s ease;
 }
 
@@ -297,27 +338,44 @@ body.theme-day .global-gradient-orb {
 }
 
 body.theme-day .nav-theme-toggle-btn {
-  background: #ffffff !important;
-  border-color: rgba(15, 23, 42, 0.14) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(2, 132, 199, 0.25) !important;
   color: #0f172a !important;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06) !important;
+  border-radius: 4px !important;
+  width: 106px !important;
+  min-width: 106px !important;
+  max-width: 106px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0 12px !important;
+  margin-left: auto !important;
+  box-sizing: border-box !important;
+}
+
+body.theme-day .nav-theme-toggle-btn span {
+  color: inherit !important;
+  font-weight: 600 !important;
 }
 
 body.theme-day .nav-theme-toggle-btn:hover {
-  background: #f1f5f9 !important;
+  background: rgba(2, 132, 199, 0.12) !important;
   border-color: #0284c7 !important;
   color: #0284c7 !important;
 }
 
-/* Ticker in Day Mode */
+/* Ticker in Day Mode — Alpine Frost Glass Bar */
 body.theme-day .ticker-band {
-  background: #ffffff !important;
-  border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+  background: rgba(2, 132, 199, 0.07) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-top: 1px solid rgba(2, 132, 199, 0.18) !important;
+  border-bottom: 1px solid rgba(2, 132, 199, 0.18) !important;
 }
 
 body.theme-day .ticker-track span {
   color: #0f172a !important;
+  font-weight: 500 !important;
 }
 
 body.theme-day .ticker-divider {
@@ -387,9 +445,11 @@ body.theme-day .project-intro p {
 
 /* About Section in Day Mode */
 body.theme-day .about-statement {
-  background: #ffffff !important;
-  border-color: rgba(15, 23, 42, 0.08) !important;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04) !important;
+  background: rgba(255, 255, 255, 0.76) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(2, 132, 199, 0.22) !important;
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.8) inset !important;
 }
 
 body.theme-day .about-statement p {
@@ -397,7 +457,7 @@ body.theme-day .about-statement p {
 }
 
 body.theme-day .story-row {
-  border-bottom-color: rgba(15, 23, 42, 0.08) !important;
+  border-bottom-color: rgba(2, 132, 199, 0.12) !important;
 }
 
 body.theme-day .story-row h3 {
@@ -417,13 +477,17 @@ body.theme-day .principles-title {
 }
 
 body.theme-day .principles-grid {
-  background: rgba(15, 23, 42, 0.08) !important;
+  background: rgba(2, 132, 199, 0.15) !important;
+  border: 1px solid rgba(2, 132, 199, 0.22) !important;
 }
 
 body.theme-day .principle-card {
-  background: #ffffff !important;
-  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
   box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 body.theme-day .principle-card h3 {
@@ -434,6 +498,13 @@ body.theme-day .principle-card p {
   color: #475569 !important;
 }
 
+body.theme-day .principle-card:hover {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(2, 132, 199, 0.4) !important;
+  box-shadow: 0 12px 28px rgba(2, 132, 199, 0.12) !important;
+  transform: translateY(-2px);
+}
+
 body.theme-day .principle-card:hover h3,
 body.theme-day .principle-card:hover p {
   color: #0f172a !important;
@@ -441,7 +512,8 @@ body.theme-day .principle-card:hover p {
 
 /* Skills Section in Day Mode */
 body.theme-day .skills-row {
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+  border-bottom: 1px solid rgba(2, 132, 199, 0.12) !important;
+  transition: background 0.2s ease;
 }
 
 body.theme-day .skills-row-num {
@@ -458,17 +530,42 @@ body.theme-day .skills-row-summary {
 
 body.theme-day .skill-tag {
   color: #0f172a !important;
-  background: #ffffff !important;
-  border: 1px solid rgba(15, 23, 42, 0.12) !important;
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03) !important;
+  background: rgba(255, 255, 255, 0.82) !important;
+  border: 1px solid rgba(2, 132, 199, 0.2) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+body.theme-day .skill-tag:hover {
+  color: #ffffff !important;
+  background: #0284c7 !important;
+  border-color: #0284c7 !important;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+  transform: translateY(-1px);
 }
 
 body.theme-day .skill-icon {
   filter: brightness(0) opacity(0.85);
+  transition: filter 0.2s ease;
 }
 
 body.theme-day .skill-icon-lucide {
   stroke: #0f172a !important;
+  transition: stroke 0.2s ease;
+}
+
+body.theme-day .skill-tag:hover .skill-icon {
+  filter: brightness(0) invert(1);
+}
+
+body.theme-day .skill-tag:hover .skill-icon-lucide {
+  stroke: #ffffff !important;
+}
+
+body.theme-day .skills-row:hover {
+  background: rgba(255, 255, 255, 0.4) !important;
 }
 
 body.theme-day .skills-row:hover .skills-row-num,
@@ -476,20 +573,6 @@ body.theme-day .skills-row:hover .skills-row-category,
 body.theme-day .skills-row:hover .skills-row-summary {
   color: #0f172a !important;
   text-shadow: none !important;
-}
-
-body.theme-day .skills-row:hover .skill-tag {
-  color: #0f172a !important;
-  border-color: rgba(15, 23, 42, 0.25) !important;
-  background: #ffffff !important;
-}
-
-body.theme-day .skills-row:hover .skill-icon {
-  filter: brightness(0);
-}
-
-body.theme-day .skills-row:hover .skill-icon-lucide {
-  stroke: #0f172a !important;
 }
 
 /* Project Cards in Day Mode */
@@ -516,9 +599,11 @@ body.theme-day .project-card p {
 }
 
 body.theme-day .project-stack span {
-  color: #334155 !important;
-  background: #ffffff !important;
-  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  color: #1e293b !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(2, 132, 199, 0.2) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 body.theme-day .proj-cta-live {
@@ -531,13 +616,14 @@ body.theme-day .proj-cta-code {
 }
 
 body.theme-day .project-mockup {
-  border-color: rgba(15, 23, 42, 0.12) !important;
-  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08) !important;
+  border: 1px solid rgba(2, 132, 199, 0.22) !important;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.8) inset !important;
+  background: rgba(255, 255, 255, 0.85) !important;
 }
 
 body.theme-day .mockup-bar {
-  background: #f1f5f9 !important;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+  background: rgba(241, 245, 249, 0.92) !important;
+  border-bottom: 1px solid rgba(2, 132, 199, 0.15) !important;
 }
 
 body.theme-day .mockup-url {
@@ -551,12 +637,20 @@ body.theme-day .project-card:hover .project-stack span,
 body.theme-day .project-card:hover .proj-cta-live,
 body.theme-day .project-card:hover .proj-cta-code {
   color: #0f172a !important;
-  border-color: rgba(15, 23, 42, 0.25) !important;
+  border-color: rgba(2, 132, 199, 0.35) !important;
 }
 
 /* Education Rows in Day Mode */
+body.theme-day .education-table {
+  background: rgba(2, 132, 199, 0.15) !important;
+  border: 1px solid rgba(2, 132, 199, 0.22) !important;
+}
+
 body.theme-day .education-row {
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-bottom: 1px solid rgba(2, 132, 199, 0.1) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 body.theme-day .edu-row-num {
@@ -573,18 +667,23 @@ body.theme-day .edu-row-period {
 
 body.theme-day .edu-tag {
   color: #0f172a !important;
-  background: #ffffff !important;
-  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(2, 132, 199, 0.2) !important;
 }
 
 body.theme-day .edu-tag.is-score {
   color: #0284c7 !important;
-  background: rgba(2, 132, 199, 0.08) !important;
-  border-color: rgba(2, 132, 199, 0.25) !important;
+  background: rgba(2, 132, 199, 0.12) !important;
+  border-color: rgba(2, 132, 199, 0.35) !important;
+  font-weight: 700 !important;
 }
 
 body.theme-day .edu-tag-icon {
   stroke: #0284c7 !important;
+}
+
+body.theme-day .education-row:hover {
+  background: rgba(255, 255, 255, 0.95) !important;
 }
 
 body.theme-day .education-row:hover .edu-row-num,
@@ -603,62 +702,72 @@ body.theme-day .education-row:hover .edu-pulse-dot {
   background: #0f172a;
 }
 
-/* Terminal & Contact in Day Mode */
+/* Terminal & Contact in Day Mode — Inverted High-Contrast Obsidian IDE Station */
 body.theme-day .terminal-panel {
-  background: #ffffff !important;
-  border: 1px solid rgba(15, 23, 42, 0.12) !important;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06) !important;
+  background: #090e1a !important;
+  border: 1px solid rgba(56, 189, 248, 0.35) !important;
+  box-shadow: 0 20px 50px rgba(2, 132, 199, 0.18), 0 0 30px rgba(56, 189, 248, 0.08) !important;
 }
 
 body.theme-day .terminal-topbar {
-  background: #f8fafc !important;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08) !important;
+  background: #060913 !important;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2) !important;
 }
 
 body.theme-day .terminal-topbar strong {
-  color: #0f172a !important;
+  color: #e2e8f0 !important;
 }
 
 body.theme-day .terminal-output {
-  color: #334155 !important;
-}
-
-body.theme-day .terminal-output p.input {
-  color: #0284c7 !important;
-}
-
-body.theme-day .terminal-output p.output {
-  color: #0f172a !important;
-}
-
-body.theme-day .terminal-input {
-  border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
-  background: #f8fafc !important;
-}
-
-body.theme-day .terminal-input input {
-  color: #0f172a !important;
-}
-
-body.theme-day .terminal-input input::placeholder {
   color: #94a3b8 !important;
 }
 
+body.theme-day .terminal-output p.input {
+  color: #38bdf8 !important;
+}
+
+body.theme-day .terminal-output p.output {
+  color: #f8fafc !important;
+}
+
+body.theme-day .terminal-input {
+  border-top: 1px solid rgba(56, 189, 248, 0.2) !important;
+  background: #060913 !important;
+}
+
+body.theme-day .terminal-input input {
+  color: #f8fafc !important;
+}
+
+body.theme-day .terminal-input input::placeholder {
+  color: #64748b !important;
+}
+
 body.theme-day .social-grid {
-  background: rgba(15, 23, 42, 0.08) !important;
+  background: rgba(2, 132, 199, 0.15) !important;
+  border: 1px solid rgba(2, 132, 199, 0.2) !important;
 }
 
 body.theme-day .social-grid a {
-  background: #ffffff !important;
+  background: rgba(255, 255, 255, 0.8) !important;
   color: #334155 !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
 }
 
 body.theme-day .social-grid a:hover {
-  color: #0f172a !important;
+  background: #0284c7 !important;
+  color: #ffffff !important;
 }
 
 body.theme-day .social-grid a svg {
   color: #0284c7 !important;
+  transition: color 0.25s ease;
+}
+
+body.theme-day .social-grid a:hover svg {
+  color: #ffffff !important;
 }
 
 body.theme-day .contact-form label {
@@ -672,15 +781,17 @@ body.theme-day .contact-form label span {
 
 body.theme-day .contact-form input,
 body.theme-day .contact-form textarea {
-  background: #ffffff !important;
-  border: 1px solid rgba(15, 23, 42, 0.16) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(2, 132, 199, 0.25) !important;
   color: #0f172a !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 body.theme-day .contact-form input:focus,
 body.theme-day .contact-form textarea:focus {
   border-color: #0284c7 !important;
-  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12) !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.16) !important;
 }
 
 body.theme-day .contact-form button,
@@ -713,8 +824,10 @@ body.theme-day .cursor-ring.is-hovering {
 
 /* Footer in Day Mode */
 body.theme-day .site-footer {
-  background: #ffffff !important;
-  border-top: 1px solid rgba(15, 23, 42, 0.08) !important;
+  background: rgba(241, 245, 249, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-top: 1px solid rgba(2, 132, 199, 0.16) !important;
 }
 
 body.theme-day .site-footer p {
@@ -731,13 +844,15 @@ body.theme-day .site-footer a:hover {
 
 body.theme-day .footer-top-btn {
   color: #334155 !important;
-  border-color: rgba(15, 23, 42, 0.14) !important;
-  background: #ffffff !important;
+  border-color: rgba(2, 132, 199, 0.25) !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(8px);
 }
 
 body.theme-day .footer-top-btn:hover {
   color: #0284c7 !important;
   border-color: #0284c7 !important;
+  background: rgba(2, 132, 199, 0.12) !important;
 }
 
 body.theme-day .footer-wordmark {
@@ -1396,7 +1511,7 @@ img {
 }
 
 .hero-section.is-day-mode {
-  background-color: #f8fafc;
+  background-color: #dbeafe;
 }
 
 .hero-section.is-day-mode .hero-scenic-vignette {
@@ -1404,9 +1519,9 @@ img {
     180deg,
     rgba(14, 116, 144, 0.05) 0%,
     transparent 35%,
-    rgba(248, 250, 252, 0.35) 60%,
-    rgba(248, 250, 252, 0.85) 85%,
-    #f8fafc 100%
+    rgba(219, 234, 254, 0.35) 60%,
+    rgba(219, 234, 254, 0.85) 85%,
+    #dbeafe 100%
   );
 }
 
@@ -4104,7 +4219,13 @@ img {
 }
 
 @media (min-width: 1024px) {
-  .desktop-nav,
+  .desktop-nav {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   .chapter-rail {
     display: flex;
   }
@@ -4174,7 +4295,7 @@ img {
 
 @media (max-width: 699px) {
   .site-nav {
-    padding: 14px;
+    padding: 12px 16px;
   }
 
   .project-card,
@@ -4188,15 +4309,45 @@ img {
   }
 
   .project-list {
-    gap: 80px;
+    gap: 60px;
   }
 
   .project-num {
-    font-size: 3.5rem;
+    font-size: 3rem;
   }
 
   .brand-lockup small {
     display: none;
+  }
+
+  .hero-section {
+    min-height: 100svh;
+  }
+
+  .hero-content {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+    padding-bottom: 72px !important;
+  }
+
+  .hero-top-controls {
+    top: 70px !important;
+    right: 14px !important;
+  }
+
+  .hero-norse-name {
+    letter-spacing: 0.03em !important;
+    line-height: 1.1 !important;
+  }
+
+  .hero-norse-subtitle {
+    font-size: 0.74rem !important;
+    letter-spacing: 0.10em !important;
+  }
+
+  .hero-scroll-indicator {
+    bottom: 16px !important;
+    font-size: 0.65rem !important;
   }
 
   .hero-scene {
@@ -4222,7 +4373,11 @@ img {
 
   .section-heading h2,
   .project-intro h2 {
-    font-size: 2.25rem;
+    font-size: 2.15rem;
+  }
+
+  .about-statement {
+    padding: 24px 18px !important;
   }
 
   .constellation {
@@ -4239,12 +4394,75 @@ img {
     padding: 8px 10px;
   }
 
+  .skills-row {
+    grid-template-columns: 36px 1fr !important;
+    gap: 10px 14px !important;
+    padding: 18px 14px !important;
+  }
+
+  .skills-row .skills-row-tags {
+    grid-column: 1 / -1 !important;
+  }
+
+  .skills-row-summary {
+    display: none !important;
+  }
+
+  .skill-tag {
+    padding: 5px 10px !important;
+    font-size: 0.72rem !important;
+  }
+
   .social-grid {
     grid-template-columns: 1fr;
   }
 
+  .terminal-panel {
+    min-height: 420px;
+  }
+
+  .terminal-output {
+    min-height: 280px;
+    padding: 14px;
+    font-size: 0.8rem;
+  }
+
+  .terminal-input {
+    padding: 10px 14px;
+  }
+
+  .menu-overlay {
+    padding: 24px 20px;
+    overflow-y: auto;
+    align-items: center;
+  }
+
+  .menu-overlay-inner {
+    width: 100%;
+    max-width: 480px;
+    margin: auto;
+  }
+
+  .menu-overlay-kicker {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+  }
+
   .menu-overlay nav a {
-    font-size: 2rem;
+    font-size: clamp(1.4rem, 6vw, 2.2rem);
+    padding: 14px 0;
+    gap: 14px;
+  }
+
+  .menu-overlay nav a span {
+    width: 32px;
+    font-size: 0.75rem;
+  }
+
+  .menu-socials {
+    margin-top: 24px;
+    gap: 10px;
   }
 
   .education-row {
@@ -4257,6 +4475,64 @@ img {
   .education-row .edu-row-period {
     grid-column: 2 / -1;
   }
+}
+
+@media (max-width: 639px) {
+  .site-nav {
+    padding: 10px 14px !important;
+    gap: 8px !important;
+  }
+
+  .brand-lockup {
+    gap: 6px;
+  }
+
+  .brand-lockup span {
+    font-size: 0.94rem;
+  }
+
+  .nav-theme-toggle-btn {
+    width: 38px !important;
+    min-width: 38px !important;
+    max-width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    margin-left: auto !important;
+    justify-content: center !important;
+  }
+
+  .nav-theme-toggle-btn span {
+    display: none !important;
+  }
+
+  .menu-toggle {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+  }
+}
+
+body.theme-day .menu-overlay {
+  background: rgba(248, 250, 252, 0.98) !important;
+}
+
+body.theme-day .menu-overlay nav a {
+  color: #0f172a !important;
+  border-bottom: 1px solid rgba(2, 132, 199, 0.15) !important;
+}
+
+body.theme-day .menu-overlay nav a span {
+  color: #0284c7 !important;
+}
+
+body.theme-day .menu-overlay-kicker {
+  color: #64748b !important;
+}
+
+body.theme-day .menu-socials a {
+  border-color: rgba(2, 132, 199, 0.25) !important;
+  color: #0f172a !important;
 }
 
 @media (pointer: coarse) {
